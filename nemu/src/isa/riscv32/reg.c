@@ -11,8 +11,9 @@ const char *regs[] = {
 void isa_reg_display() {
 	for( int i = 0; i < 32; i++ )
 	{
-		printf("%-5s %-40u 0x %-40x\n", regs[i], cpu.gpr[i]._32, cpu.gpr[i]._32);
+		printf( "%-5s %-40u 0x %-40x\n", regs[i], cpu.gpr[i]._32, cpu.gpr[i]._32 );
 	}
+	printf( "pc\t %-40u 0x %-40x\n", cpu.pc, cpu.pc );
 }
 
 word_t isa_reg_str2val(const char *s, bool *success) {
