@@ -6,6 +6,7 @@
 
 static int is_batch_mode = false;
 extern NEMUState nemu_state;
+extern word_t paddr_read(paddr_t addr, int len);
 
 void init_regex();
 void init_wp_pool();
@@ -39,6 +40,7 @@ static int cmd_q(char *args) {
    	return -1;
 }
 
+static int cmd_x(char *args);
 static int cmd_help(char *args);
 static int cmd_si(char *args);
 static int cmd_info(char *args);
@@ -53,6 +55,7 @@ static struct {
   { "q", "Exit NEMU", cmd_q },
   { "si", "Step execution", cmd_si},
   { "info", "Print status of register", cmd_info},
+  { "x", "Examine memory", cmd_x },
 
   /* TODO: Add more commands */
 
@@ -81,6 +84,21 @@ static int cmd_help(char *args) {
     printf("Unknown command '%s'\n", arg);
   }
   return 0;
+}
+
+static int cmd_x(char *args){
+	char *arg1 = strtok(NULL, " ");
+	char *arg2 = strtok(NULL, " ");
+	int num = atoi(arg1);
+	paddr_t addr = atoi(arg2);
+	int read;
+
+	for ( int i=0; i < num; i++ ){
+		read = paddr_read(addr, 4);
+		if( i%4 == 0 ) printf("%x\t", addr);
+		printf("%d\t", read);
+	}
+	return 0;
 }
 
 static int cmd_si(char *args){
