@@ -91,13 +91,13 @@ static int cmd_x(char *args){
 	char *arg1 = strtok(NULL, " ");
 	char *arg2 = strtok(NULL, " ");
 	int num = atoi(arg1);
-	unsigned char *haddr = (unsigned char *)arg2;
-	paddr_t addr = host_to_guest(haddr);
+	//unsigned char *haddr = (unsigned char *)arg2;
+	paddr_t addr = *arg2;
 	int read;
 
 	for ( int i=0; i < num; i++ ){
 		read = paddr_read(addr, 4);
-		if( i%4 == 0 ) printf("%s\t", haddr);
+		if( i%4 == 0 ) printf("%x\t", addr);
 		printf("%d\t", read);
 	}
 	return 0;
