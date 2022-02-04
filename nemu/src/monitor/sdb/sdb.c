@@ -91,18 +91,17 @@ static int cmd_x(char *args){
 	char *arg1 = strtok(NULL, " ");
 	char *arg2 = strtok(NULL, " ");
 	int num = atoi(arg1);
-	//unsigned char *haddr = (unsigned char *)arg2;
 	paddr_t addr;
 	sscanf(arg2, "%x", &addr);
 	int read;
 
 	for ( int i=0; i < num; i++ ){
-		read = paddr_read(addr, 4);
+		read = paddr_read(addr+i, 4);
 		if( i%4 == 0 ) {
 			if(i != 0) printf("\n");
-			printf("%x:\t", addr);
+			printf("0x%x:\t", addr);
 		}
-		printf("%d\t", read);
+		printf("0x%d\t", read);
 	}
 	printf("\n");
 	return 0;
