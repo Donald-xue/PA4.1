@@ -7,6 +7,7 @@
 static int is_batch_mode = false;
 extern NEMUState nemu_state;
 extern word_t paddr_read(paddr_t addr, int len);
+extern paddr_t host_to_guest(uint8_t *haddr);
 
 void init_regex();
 void init_wp_pool();
@@ -90,12 +91,13 @@ static int cmd_x(char *args){
 	char *arg1 = strtok(NULL, " ");
 	char *arg2 = strtok(NULL, " ");
 	int num = atoi(arg1);
-	paddr_t addr = atoi(arg2);
+	unsigned char *haddr = (unsigned char *)arg2;
+	paddr_t addr = host_to_guest(haddr);
 	int read;
 
 	for ( int i=0; i < num; i++ ){
 		read = paddr_read(addr, 4);
-		if( i%4 == 0 ) printf("%x\t", addr);
+		if( i%4 == 0 ) printf("%s\t", haddr);
 		printf("%d\t", read);
 	}
 	return 0;
