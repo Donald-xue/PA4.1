@@ -96,7 +96,7 @@ static int cmd_x(char *args){
 	int read;
 
 	for ( int i=0; i < num; i++ ){
-		read = paddr_read(addr+i*8, 4);
+		read = paddr_read(addr+i*4, 4);
 		if( i%4 == 0 ) {
 			if(i != 0) printf("\n");
 			printf("0x%x:\t", addr);
