@@ -92,7 +92,8 @@ static int cmd_x(char *args){
 	char *arg2 = strtok(NULL, " ");
 	int num = atoi(arg1);
 	//unsigned char *haddr = (unsigned char *)arg2;
-	paddr_t addr = (unsigned int)*arg2;
+	paddr_t addr;
+	sscanf(arg2, "%x", &addr);
 	int read;
 
 	for ( int i=0; i < num; i++ ){
