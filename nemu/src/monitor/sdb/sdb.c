@@ -101,7 +101,7 @@ static int cmd_x(char *args){
 			if(i != 0) printf("\n");
 			printf("0x%x:\t", addr);
 		}
-		printf("0x%d\t", read);
+		printf("0x%x\t", read);
 	}
 	printf("\n");
 	return 0;
