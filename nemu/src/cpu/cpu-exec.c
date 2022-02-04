@@ -64,11 +64,10 @@ void fetch_decode(Decode *s, vaddr_t pc) {
   s->EHelper = g_exec_table[idx];
 #ifdef CONFIG_ITRACE
   char *p = s->logbuf;
-  p += snprintf(p, sizeof(s->logbuf), FMT_WORD ":", s->pc);
+  p += snprintf(p, sizeof(s->logbuf), FMT_WORD ":\t0x", s->pc);
   int ilen = s->snpc - s->pc;
   int i;
   uint8_t *instr = (uint8_t *)&s->isa.instr.val;
-  //p += snprintf(p, 2, "0x");
   for (i = ilen-1; i >= 0; i --) {
     p += snprintf(p, 4, "%02x", instr[i]);
   }
