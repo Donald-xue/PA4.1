@@ -68,8 +68,9 @@ void fetch_decode(Decode *s, vaddr_t pc) {
   int ilen = s->snpc - s->pc;
   int i;
   uint8_t *instr = (uint8_t *)&s->isa.instr.val;
+  //p += snprintf(p, 2, "0x");
   for (i = ilen-1; i >= 0; i --) {
-    p += snprintf(p, 4, " %02x", instr[i]);
+    p += snprintf(p, 4, "%02x", instr[i]);
   }
   int ilen_max = MUXDEF(CONFIG_ISA_x86, 8, 4);
   int space_len = ilen_max - ilen;
