@@ -111,11 +111,15 @@ static int cmd_si(char *args){
 	/* extract the first argument */
 	char *arg = strtok(NULL, " ");
 	int step;
-
 	if(arg == NULL)
 	{ step = 1; }
-	else
-	{ step = atoi(arg); }
+	else{
+	step = atoi(arg);
+    if(step < -1){                                                          
+         printf("Error，N is an integer greater than or equal to -1\n");  
+         return 0;
+	}
+	}
 	cpu_exec((uint64_t)step);
 	return 0;
 }
