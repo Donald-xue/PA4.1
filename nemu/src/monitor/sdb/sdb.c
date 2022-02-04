@@ -98,9 +98,13 @@ static int cmd_x(char *args){
 
 	for ( int i=0; i < num; i++ ){
 		read = paddr_read(addr, 4);
-		if( i%4 == 0 ) printf("%x\t", addr);
+		if( i%4 == 0 ) {
+			if(i != 0) printf("\n");
+			printf("%x\t", addr);
+		}
 		printf("%d\t", read);
 	}
+	printf("\n");
 	return 0;
 }
 
