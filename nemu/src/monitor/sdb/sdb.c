@@ -100,7 +100,7 @@ static int cmd_x(char *args){
 		read = paddr_read(addr, 4);
 		if( i%4 == 0 ) {
 			if(i != 0) printf("\n");
-			printf("%x\t", addr);
+			printf("%x:\t", addr);
 		}
 		printf("%d\t", read);
 	}
