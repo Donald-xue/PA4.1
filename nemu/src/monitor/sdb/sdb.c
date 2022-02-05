@@ -8,7 +8,7 @@ static int is_batch_mode = false;
 extern NEMUState nemu_state;
 extern word_t paddr_read(paddr_t addr, int len);
 extern paddr_t host_to_guest(uint8_t *haddr);
-extern bool make_token(char *e);
+bool make_token(char *e);
 
 void init_regex();
 void init_wp_pool();
