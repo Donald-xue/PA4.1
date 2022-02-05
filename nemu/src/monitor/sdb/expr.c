@@ -7,7 +7,8 @@
 
 enum {
   TK_NOTYPE = 256, TK_EQ,
-
+  //'+', '-', '*', '/', '(', ')',
+  NUMBER,
   /* TODO: Add more token types */
 
 };
@@ -21,9 +22,15 @@ static struct rule {
    * Pay attention to the precedence level of different rules.
    */
 
-  {" +", TK_NOTYPE},    // spaces
-  {"\\+", '+'},         // plus
-  {"==", TK_EQ},        // equal
+  {" +", TK_NOTYPE},     // spaces
+  {"\\+", '+'},          // plus
+  {"==", TK_EQ},         // equal
+  {"-", '-'},            // minus
+  {"\\*", '*'},           // multiplication
+  {"/", '/'},            // division
+  {"\\(", '('},           // Left parenthesis
+  {"\\)", ')'},           // Right parenthesis
+  {"\\b[0-9]\\b", NUMBER}, // number
 };
 
 #define NR_REGEX ARRLEN(rules)
@@ -80,9 +87,45 @@ static bool make_token(char *e) {
          */
 
         switch (rules[i].token_type) {
+          case TK_NOTYPE: break;
+	      case '+':
+			  tokens[nr_token].type=5;
+			  strncpy(tokens[nr_token].str, substr_start, substr_len);
+			  nr_token++;
+			  break;
+		  case '-':
+              tokens[nr_token].type=6;
+              strncpy(tokens[nr_token].str, substr_start, substr_len); 
+			  nr_token++;                                                                                                          
+              break;
+		  case '*':
+              tokens[nr_token].type=3;
+              strncpy(tokens[nr_token].str, substr_start, substr_len); 
+              nr_token++;
+              break;
+		  case '/':
+              tokens[nr_token].type=4;
+              strncpy(tokens[nr_token].str, substr_start, substr_len); 
+              nr_token++;
+              break;
+     	  case '(':
+              tokens[nr_token].type=1;
+              strncpy(tokens[nr_token].str, substr_start, substr_len); 
+              nr_token++;
+              break;  
+          case ')':
+              tokens[nr_token].type=2;
+              strncpy(tokens[nr_token].str, substr_start, substr_len); 
+              nr_token++;
+              break;  
+		  case NUMBER:
+			  tokens[nr_token].type=7;
+              strncpy(tokens[nr_token].str, substr_start, substr_len); 
+			  nr_token++;
+			  break;
           default: TODO();
         }
-
+        printf("type=%d, str=%s\n", tokens[nr_token-1].type, tokens[nr_token-1].str);
         break;
       }
     }

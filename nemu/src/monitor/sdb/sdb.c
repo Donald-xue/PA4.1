@@ -8,6 +8,7 @@ static int is_batch_mode = false;
 extern NEMUState nemu_state;
 extern word_t paddr_read(paddr_t addr, int len);
 extern paddr_t host_to_guest(uint8_t *haddr);
+extern bool make_token(char *e);
 
 void init_regex();
 void init_wp_pool();
@@ -45,6 +46,7 @@ static int cmd_x(char *args);
 static int cmd_help(char *args);
 static int cmd_si(char *args);
 static int cmd_info(char *args);
+static int cmd_p(char *args);
 
 static struct {
   const char *name;
@@ -57,12 +59,20 @@ static struct {
   { "si", "Step execution", cmd_si},
   { "info", "Print status of register", cmd_info},
   { "x", "Examine memory", cmd_x },
+  { "p", "Calculation", cmd_p },
 
   /* TODO: Add more commands */
 
 };
 
 #define NR_CMD ARRLEN(cmd_table)
+
+static int cmd_p(char *args){
+	char *arg = strtok(NULL, "\n");
+	int i = make_token( arg );
+	if(i == 0) return 0;
+	else return 1;
+}
 
 static int cmd_help(char *args) {
   /* extract the first argument */
