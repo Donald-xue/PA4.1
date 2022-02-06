@@ -212,6 +212,9 @@ int eval(int p, int q) {
 			  if (tokens[j].type == '+'){
 					  operator = j;
 			  }
+			  else if (tokens[j].type == '-'){
+				  operator = j;
+			  }
 			  else if(tokens[j].type == '*' || '/'){
 				  if(operator == 0 || tokens[operator].type == '*' || tokens[operator].type == '/'){
 					  operator = j;
