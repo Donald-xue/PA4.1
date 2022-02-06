@@ -184,7 +184,7 @@ int eval(int p, int q) {
     return eval(p + 1, q - 1);
   }
   else {
-	  int j = p, operator = 0, num = 0;
+	  int j = p, operator = p, num = 0;
 	  for( ; j != q; j++){
 		  if (tokens[j].type == '(')
 			  num++;
