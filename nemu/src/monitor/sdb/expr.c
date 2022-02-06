@@ -196,7 +196,7 @@ int eval(int p, int q) {
 					  operator = j;
 				  }
 				  else if(operator == -1 || tokens[operator].type == '*' || tokens[operator].type == '/'){
-					  operator = j;
+					  //operator = j;
 				  }
 				  else continue;
 		      }
