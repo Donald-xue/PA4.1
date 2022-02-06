@@ -89,37 +89,37 @@ static bool make_token(char *e) {
         switch (rules[i].token_type) {
           case TK_NOTYPE: break;
 	      case '+':
-			  tokens[nr_token].type=5;
+			  tokens[nr_token].type='+';
 			  strncpy(tokens[nr_token].str, substr_start, substr_len);
 			  nr_token++;
 			  break;
 		  case '-':
-              tokens[nr_token].type=6;
+              tokens[nr_token].type='-';
               strncpy(tokens[nr_token].str, substr_start, substr_len); 
 			  nr_token++;                                                                                                          
               break;
 		  case '*':
-              tokens[nr_token].type=3;
+              tokens[nr_token].type='*';
               strncpy(tokens[nr_token].str, substr_start, substr_len); 
               nr_token++;
               break;
 		  case '/':
-              tokens[nr_token].type=4;
+              tokens[nr_token].type='/';
               strncpy(tokens[nr_token].str, substr_start, substr_len); 
               nr_token++;
               break;
      	  case '(':
-              tokens[nr_token].type=1;
+              tokens[nr_token].type='(';
               strncpy(tokens[nr_token].str, substr_start, substr_len); 
               nr_token++;
               break;  
           case ')':
-              tokens[nr_token].type=2;
+              tokens[nr_token].type=')';
               strncpy(tokens[nr_token].str, substr_start, substr_len); 
               nr_token++;
               break;  
 		  case NUMBER:
-			  tokens[nr_token].type=7;
+			  tokens[nr_token].type=NUMBER;
               strncpy(tokens[nr_token].str, substr_start, substr_len); 
 			  nr_token++;
 			  break;
