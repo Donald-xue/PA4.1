@@ -222,6 +222,7 @@ word_t expr(char *e, bool *success) {
 
   int size, result;
   size = sizeof(e);
+  printf("size = %d\n", size);
   result = eval(0, size-1);
   printf("result = %d\n", result);
   return result;
