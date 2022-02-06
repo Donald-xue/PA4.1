@@ -146,6 +146,7 @@ bool check_parentheses(int p, int q){
 		for( ; i < q; i++){
 			if(left == right && tokens[i].type == ')')
 				return false;
+			printf("hahahahhahsidhakdfhajldfhasdf\n");
 			if(tokens[i].type == '(')
 				left++;
 			else if(tokens[i].type == ')')
