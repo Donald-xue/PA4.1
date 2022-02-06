@@ -152,6 +152,7 @@ bool check_parentheses(int p, int q){
 				right++;
 			else continue;
 		}
+		printf("left = %d, right = %d\n", left, right);
 		if(i == q && left == right)
 			return true;
 		else 
