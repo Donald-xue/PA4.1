@@ -125,20 +125,16 @@ static bool make_token(char *e) {
 			  break;
           default: TODO();
         }
-		//printf("type=%d, str=%s\n", tokens[nr_token-1].type, tokens[nr_token-1].str);
         break;
       }
-	//  for (int j = 0; j < nr_token; j++)
-	//	  printf("type=%d, str=%s\n", tokens[j].type, tokens[j].str);
     }
-    for (int j = 0; j < nr_token; j++)
-           printf("type=%d, str=%s\n", tokens[j].type, tokens[j].str);
+   // for (int j = 0; j < nr_token; j++)
+     //      printf("type=%d, str=%s\n", tokens[j].type, tokens[j].str);
     if (i == NR_REGEX) {
       printf("no match at position %d\n%s\n%*.s^\n", position, e, position, "");
       return false;
     }
   }
-
   return true;
 }
 
@@ -202,6 +198,7 @@ int eval(int p, int q) {
 					  operator = j;
 		      }
 	      }
+		  printf("op = %d", operator);
 	  }
 
 	  int op = operator;
