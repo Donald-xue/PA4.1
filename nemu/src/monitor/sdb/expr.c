@@ -198,6 +198,7 @@ int eval(int p, int q) {
 				  else if(operator == -1 || tokens[operator].type == '*' || tokens[operator].type == '/'){
 					  operator = j;
 				  }
+				  else continue;
 		      }
 	      }
 		  printf("op = %d", operator);
