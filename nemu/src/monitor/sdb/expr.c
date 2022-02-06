@@ -186,23 +186,6 @@ int eval(int p, int q) {
   }
   else {
 	  int j = p, operator = p, num = 0;
-	  /*for( ; j != p; j--){                                         
-           if (tokens[j].type == ')')
-               num++;
-           if (tokens[j].type == '(')
-               num--;
-           if (num == 0){
-               if (tokens[j].type == '+' || '-'){
-                       operator = j;
-               }
-               else if(tokens[j].type == '*' || '/'){
-                   if(operator == 0 || tokens[operator].type == '*' ||     tokens[operator].type == '/'){
-                       operator = j;
-                   }
-               }
-           }
-           printf("op = %d", operator);
-       }*/
 	  for( ; j != q; j++){
 		  if (tokens[j].type == '(')
 			  num++;
