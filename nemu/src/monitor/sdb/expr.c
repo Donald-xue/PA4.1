@@ -125,7 +125,7 @@ static bool make_token(char *e) {
 			  break;
           default: TODO();
         }
-        //printf("type=%d, str=%s\n", tokens[nr_token-1].type, tokens[nr_token-1].str);
+			printf("type=%d, str=%s\n", tokens[nr_token-1].type, tokens[nr_token-1].str);
         break;
       }
     }
