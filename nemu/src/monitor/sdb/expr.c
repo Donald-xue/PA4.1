@@ -193,14 +193,18 @@ int eval(int p, int q) {
 			  num--;
 		  if (num == 0){
 			  if (tokens[j].type == '+' || '-' || '*' || '/'){
-				  if(tokens[j].type == '+' || '-'){
+				  if(tokens[j].type == '+'){
 					  operator = j;
+					  printf("add\n");
+				  }
+				  else if (tokens[j].type == '-'){
+					  operator = j;
+				      printf("minus\n");
 				  }
 				  //else if (operator == -1)
 					//  operator = j;
 				  else if(operator == 0 || tokens[operator].type == '*' || tokens[operator].type == '/'){
 					  operator = j;
-					  printf("chengchufa");
 				  }
 				  else continue;
 		      }
