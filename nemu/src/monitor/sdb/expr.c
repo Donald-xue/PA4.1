@@ -200,6 +200,7 @@ int eval(int p, int q) {
 					//  operator = j;
 				  else if(operator == 0 || tokens[operator].type == '*' || tokens[operator].type == '/'){
 					  operator = j;
+					  printf("chengchufa");
 				  }
 				  else continue;
 		      }
