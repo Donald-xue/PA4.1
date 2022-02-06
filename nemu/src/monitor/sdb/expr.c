@@ -125,7 +125,7 @@ static bool make_token(char *e) {
 			  break;
           default: TODO();
         }
-        printf("type=%d, str=%s\n", tokens[nr_token-1].type, tokens[nr_token-1].str);
+        //printf("type=%d, str=%s\n", tokens[nr_token-1].type, tokens[nr_token-1].str);
         break;
       }
     }
@@ -139,6 +139,81 @@ static bool make_token(char *e) {
   return true;
 }
 
+bool check_parentheses(int p, int q){
+	int i = p, left = 0, right = 0;
+	if( tokens[i].type != '(' || tokens[i].type != ')' )
+		return false;
+	else{
+		for( ; i != q; i++){
+			if(left == right || tokens[i].type == ')')
+				return false;
+			if(tokens[i].type == '(')
+				left++;
+			else if(tokens[i].type == ')')
+				right++;
+			else continue;
+		}
+		if(i == q && left == right)
+			return true;
+		else 
+			return false;
+	}
+}
+
+int eval(int p, int q) {
+  if (p > q) {
+	  printf("wrong arguement for eval(p, q)\n");
+	  assert(0);
+    /* Bad expression */
+  }
+  else if (p == q) {
+	  if(tokens[p].type == NUMBER){
+		  int i = atoi(tokens[p].str);
+		  return i;
+	  }
+	  assert(0);
+    /* Single token.
+     * For now this token should be a number.
+     * Return the value of the number.
+     */
+  }
+  else if (check_parentheses(p, q) == true) {
+    /* The expression is surrounded by a matched pair of parentheses.
+     * If that is the case, just throw away the parentheses.
+     */
+    return eval(p + 1, q - 1);
+  }
+  else {
+	  int j = p, operator = -1, num = 0;
+	  for( ; j != q; j++){
+		  if (tokens[j].type == '(')
+			  num++;
+		  if (tokens[j].type == ')')
+			  num--;
+		  if (num == 0){
+			  if (tokens[j].type == '+' || '-' || '*' || '/'){
+				  if(tokens[j].type == '+' || '-')
+					  operator = j;
+				  else
+					  if(operator == -1 || tokens[operator].type == '*' || tokens[operator].type == '/')
+					  operator = j;
+		      }
+	      }
+	  }
+
+	  int op = operator;
+      int val1 = eval(p, op - 1);
+      int val2 = eval(op + 1, q);
+
+      switch (tokens[op].type) {
+        case '+': return val1 + val2;
+        case '-': return val1 - val2;
+        case '*': return val1 * val2;
+        case '/': return val1 / val2;
+        default: assert(0);
+	}
+  }
+}
 
 word_t expr(char *e, bool *success) {
   if (!make_token(e)) {
@@ -146,6 +221,11 @@ word_t expr(char *e, bool *success) {
     return 0;
   }
 
+  int size, result;
+  size = sizeof(e);
+  result = eval(0, size-1);
+  printf("result = %d\n", result);
+  return result;
   /* TODO: Insert codes to evaluate the expression. */
   TODO();
 

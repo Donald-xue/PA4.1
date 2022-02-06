@@ -8,7 +8,6 @@ static int is_batch_mode = false;
 extern NEMUState nemu_state;
 extern word_t paddr_read(paddr_t addr, int len);
 extern paddr_t host_to_guest(uint8_t *haddr);
-bool make_token(char *);
 
 void init_regex();
 void init_wp_pool();
@@ -69,7 +68,8 @@ static struct {
 
 static int cmd_p(char *args){
 	char *arg = strtok(NULL, "\n");
-	expr(arg, NULL);
+	bool success = true;
+	expr(arg, &success);
 	return 0;
 }
 
