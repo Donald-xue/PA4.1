@@ -200,7 +200,7 @@ int eval(int p, int q) {
 				  }
 		      }
 	      }
-		  //printf("op = %d", operator);
+		  printf("op = %d", operator);
 	  }
 
 	  int op = operator;
