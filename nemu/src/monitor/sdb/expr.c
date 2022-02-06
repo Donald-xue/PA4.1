@@ -161,6 +161,7 @@ bool check_parentheses(int p, int q){
 }
 
 int eval(int p, int q) {
+	printf ("%d\t%d\n", p, q);
   if (p > q) {
 	  printf("wrong arguement for eval(p, q)\n");
 	  assert(0);
@@ -222,7 +223,7 @@ word_t expr(char *e, bool *success) {
 
   int size, result;
   size = sizeof(e);
-  printf("size = %d\n", size);
+  //printf("size = %d\n", size);
   result = eval(0, size-1);
   printf("result = %d\n", result);
   return result;
