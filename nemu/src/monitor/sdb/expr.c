@@ -192,13 +192,15 @@ int eval(int p, int q) {
 			  num--;
 		  if (num == 0){
 			  if (tokens[j].type == '+' || '-' || '*' || '/'){
-				  if(tokens[j].type == '+' || '-')
+				  if(tokens[j].type == '+' || '-'){
 					  operator = j;
-				  else if(operator == -1 || tokens[operator].type == '*' || tokens[operator].type == '/')
+				  }
+				  else if(operator == -1 || tokens[operator].type == '*' || tokens[operator].type == '/'){
 					  operator = j;
+				  }
 		      }
 	      }
-		  printf("op = %d", operator);
+		  //printf("op = %d", operator);
 	  }
 
 	  int op = operator;
@@ -222,10 +224,10 @@ word_t expr(char *e, bool *success) {
     return 0;
   }
 
-  int size, result;
-  size = sizeof(e);
+  int result;
+  //size = sizeof(e);
   //printf("size = %d\n", size);
-  result = eval(0, size-1);
+  result = eval(0, nr_token-1);
   printf("result = %d\n", result);
   return result;
   /* TODO: Insert codes to evaluate the expression. */
