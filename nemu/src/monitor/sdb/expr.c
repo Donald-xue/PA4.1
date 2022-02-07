@@ -166,7 +166,7 @@ bool check_parentheses(int p, int q){
 int eval(int p, int q) {
 	printf ("%d\t%d\n", p, q);
   if (p > q) {
-	  printf("wrong arguement for eval(p, q)\n");
+	  printf("Evaluator is invalid!\n");
 	  assert(0);
     /* Bad expression */
   }
