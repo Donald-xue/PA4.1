@@ -141,9 +141,9 @@ static bool make_token(char *e) {
 		  }
 	  if(tokens[k].type == NEGATIVE){
 		  for(int m = k; m <= nr_token; m++){
-			  tokens[k].type = tokens[k+1].type;
-			  int n = -1 * atoi(tokens[k+1].str);
-		  sprintf(tokens[k].str,"%d",n);
+			  tokens[m].type = tokens[m+1].type;
+			  int n = -1 * atoi(tokens[m+1].str);
+		      sprintf(tokens[m].str,"%d",n);
 		  }
 		  nr_token--;
 	  }
