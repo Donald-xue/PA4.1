@@ -5,7 +5,7 @@
  */
 #include <regex.h>
 
-//static int flag = 0;
+static int flag = 0;
 enum {
   TK_NOTYPE = 256, TK_EQ,
   //'+', '-', '*', '/', '(', ')',
@@ -129,8 +129,8 @@ static bool make_token(char *e) {
         break;
       }
     }
-    //for (int j = 0; j < nr_token; j++)
-      //     printf("type=%d, str=%s\n", tokens[j].type, tokens[j].str);
+    for (int j = 0; j < nr_token; j++)
+           printf("type=%d, str=%s\n", tokens[j].type, tokens[j].str);
     if (i == NR_REGEX) {
       printf("no match at position %d\n%s\n%*.s^\n", position, e, position, "");
       return false;
@@ -158,13 +158,13 @@ bool check_parentheses(int p, int q){
 		if(i == q && left == right)
 			return true;
 		else
-//		    flag = 1;	
+		    flag = 1;	
 			return false;
 	}
 }
 
 int eval(int p, int q) {
-	//printf ("%d\t%d\n", p, q);
+	printf ("%d\t%d\n", p, q);
   if (p > q) {
 	  printf("wrong arguement for eval(p, q)\n");
 	  assert(0);
@@ -187,10 +187,10 @@ int eval(int p, int q) {
      */
     return eval(p + 1, q - 1);
   }
-  //else if (check_parentheses(p, q) == true && flag == 1){
-//	  printf("Evaluator is invalid!\n");
-//	  assert(0);
-//  }
+  else if (check_parentheses(p, q) == true && flag == 1){
+	  printf("Evaluator is invalid!\n");
+	  assert(0);
+  }
   else {
 	  int j = p, operator = p, num = 0;
 	  for( ; j != q; j++){
@@ -208,11 +208,11 @@ int eval(int p, int q) {
 				  }
 		      }
 	      }
-		  //printf("op = %d", operator);
+		  printf("op = %d", operator);
 	  }
 
 	  int op = operator;
-	  //printf("operator = %d\n", op);
+	  printf("operator = %d\n", op);
       int val1 = eval(p, op - 1);
       int val2 = eval(op + 1, q);
 
