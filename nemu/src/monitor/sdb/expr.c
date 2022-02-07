@@ -135,7 +135,7 @@ static bool make_token(char *e) {
       return false;
     }
   }
-  /*int tail = nr_token;
+  int tail = nr_token;
   for(int k = 0; k <= tail; k++){
 	  if(tokens[k].type == '-')
 		  if(k == 0 || tokens[k-1].type == '+' || tokens[k-1].type == '-' || tokens[k-1].type == '*' || tokens[k-1].type == '/' || tokens[k-1].type == '('){
@@ -149,7 +149,7 @@ static bool make_token(char *e) {
 		  }
 		  nr_token--;
 	  }
-  }*/
+  }
   return true;
 }
 
