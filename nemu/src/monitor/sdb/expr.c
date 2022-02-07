@@ -191,7 +191,7 @@ int eval(int p, int q) {
 			  num++;
 		  if (tokens[j].type == ')')
 			  num--;
-		  //if (num == 0){
+		  if (num == 0){
 			  if (tokens[j].type == '+' || '-'){
 					  operator = j;
 			  }
@@ -200,7 +200,7 @@ int eval(int p, int q) {
 					  operator = j;
 				  }
 		      }
-	      //}
+	      }
 		  printf("op = %d", operator);
 	  }
 
