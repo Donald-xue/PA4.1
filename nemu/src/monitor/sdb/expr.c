@@ -8,8 +8,7 @@
 static int flag = 0;
 enum {
   TK_NOTYPE = 256, TK_EQ,
-  //'+', '-', '*', '/', '(', ')',
-  NUMBER,
+  NUMBER, NEGATIVE,
   /* TODO: Add more token types */
 
 };
@@ -136,6 +135,21 @@ static bool make_token(char *e) {
       return false;
     }
   }
+  /*int tail = nr_token;
+  for(int k = 0; k <= tail; k++){
+	  if(tokens[k].type == '-')
+		  if(k == 0 || tokens[k-1].type == '+' || tokens[k-1].type == '-' || tokens[k-1].type == '*' || tokens[k-1].type == '/' || tokens[k-1].type == '('){
+			  tokens[k].type = NEGATIVE;
+		  }
+	  if(tokens[k].type == NEGATIVE){
+		  for(int m = k; m < nr_token; m++){
+			  tokens[k].type = tokens[k+1].type;
+			  int n = -1 * atoi(tokens[k+1].str);
+		  sprintf(tokens[k].str,"%d",n);
+		  }
+		  nr_token--;
+	  }
+  }*/
   return true;
 }
 
@@ -214,14 +228,21 @@ int eval(int p, int q) {
 
 	  int op = operator;
 	  //printf("operator = %d\n", op);
-      int val1 = eval(p, op - 1);
-      int val2 = eval(op + 1, q);
+	  int val1 = eval(p, op - 1);
+	  int val2 = eval(op + 1, q); 
+/*	  if(tokens[op].type == NEGATIVE){
+		  if(op != 0){
+		  int val1 = eval(p, op - 2);
+		  int val2 = eval(op + 1, q);
+		  }
+	  }*/
 
       switch (tokens[op].type) {
         case '+': return val1 + val2;
         case '-': return val1 - val2;
         case '*': return val1 * val2;
         case '/': return val1 / val2;
+//		case NEGATIVE: return -1*val;
         default: assert(0);
 	}
   }
