@@ -164,7 +164,7 @@ bool check_parentheses(int p, int q){
 }
 
 int eval(int p, int q) {
-	printf ("%d\t%d\n", p, q);
+	//printf ("%d\t%d\n", p, q);
   if (p > q) {
 	  printf("Evaluator is invalid!\n");
 	  assert(0);
@@ -208,7 +208,7 @@ int eval(int p, int q) {
 				  }
 		      }
 	      }
-		  printf("op = %d", operator);
+		  //printf("op = %d", operator);
 	  }
 
 	  int op = operator;
