@@ -128,8 +128,8 @@ static bool make_token(char *e) {
         break;
       }
     }
-    for (int j = 0; j < nr_token; j++)
-           printf("type=%d, str=%s\n", tokens[j].type, tokens[j].str);
+    //for (int j = 0; j < nr_token; j++)
+      //     printf("type=%d, str=%s\n", tokens[j].type, tokens[j].str);
     if (i == NR_REGEX) {
       printf("no match at position %d\n%s\n%*.s^\n", position, e, position, "");
       return false;
@@ -205,7 +205,7 @@ int eval(int p, int q) {
 	  }
 
 	  int op = operator;
-	  printf("operator = %d\n", op);
+	  //printf("operator = %d\n", op);
       int val1 = eval(p, op - 1);
       int val2 = eval(op + 1, q);
 
