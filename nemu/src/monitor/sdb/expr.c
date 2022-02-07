@@ -5,6 +5,7 @@
  */
 #include <regex.h>
 
+static int flag = 0;
 enum {
   TK_NOTYPE = 256, TK_EQ,
   //'+', '-', '*', '/', '(', ')',
@@ -140,6 +141,7 @@ static bool make_token(char *e) {
 
 bool check_parentheses(int p, int q){
 	int i = p, left = 0, right = 0;
+	flag = 0;
 	if( tokens[p].type != '(' || tokens[q].type != ')' )
 		return false;
 	else{
@@ -155,7 +157,8 @@ bool check_parentheses(int p, int q){
 		i--;
 		if(i == q && left == right)
 			return true;
-		else 
+		else
+		    flag = 1;	
 			return false;
 	}
 }
@@ -183,6 +186,10 @@ int eval(int p, int q) {
      * If that is the case, just throw away the parentheses.
      */
     return eval(p + 1, q - 1);
+  }
+  else if (check_parentheses(p, q) == true && flag == 1){
+	  printf("Evaluator is invalid!\n");
+	  assert(0);
   }
   else {
 	  int j = p, operator = p, num = 0;
