@@ -145,7 +145,7 @@ bool check_parentheses(int p, int q){
 	if( tokens[p].type != '(' || tokens[q].type != ')' )
 		return false;
 	else{
-		for( ; i <= q; i++){
+		for( ; i < q; i++){
 			if(left == right + 1 && tokens[i].type == ')')
 				return false;
 			if(tokens[i].type == '(')
@@ -154,8 +154,8 @@ bool check_parentheses(int p, int q){
 				right++;
 			else continue;
 		}
-		i--;
-		if(i == q && left == right)
+		//i--;
+		if(i == q && left == right + 1)
 			return true;
 		else
 		    flag = 1;	
