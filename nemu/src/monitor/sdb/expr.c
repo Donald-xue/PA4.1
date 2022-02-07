@@ -158,7 +158,8 @@ bool check_parentheses(int p, int q){
 		if(i == q && left == right + 1)
 			return true;
 		else
-		    flag = 1;	
+			printf("Evaluator is invalid!\n");
+		    //flag = 1;	
 			return false;
 	}
 }
@@ -212,7 +213,7 @@ int eval(int p, int q) {
 	  }
 
 	  int op = operator;
-	  printf("operator = %d\n", op);
+	  //printf("operator = %d\n", op);
       int val1 = eval(p, op - 1);
       int val2 = eval(op + 1, q);
 
