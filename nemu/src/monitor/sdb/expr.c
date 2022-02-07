@@ -192,10 +192,10 @@ int eval(int p, int q) {
 		  if (tokens[j].type == ')')
 			  num--;
 		  if (num == 0){
-			  if (tokens[j].type == 43 || 45){
-					  operator = j;
-			  }
-			  else if(tokens[j].type == '*' || '/'){
+			  //if (tokens[j].type == '+' || '-'){
+				//	  operator = j;
+			  //}
+			  if(tokens[j].type == '*' || '/'){
 				  if(operator == 0 || tokens[operator].type == '*' || tokens[operator].type == '/'){
 					  operator = j;
 				  }
