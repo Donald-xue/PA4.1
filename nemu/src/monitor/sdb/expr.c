@@ -129,8 +129,8 @@ static bool make_token(char *e) {
         break;
       }
     }
-    for (int j = 0; j < nr_token; j++)
-           printf("type=%d, str=%s\n", tokens[j].type, tokens[j].str);
+//    for (int j = 0; j < nr_token; j++)
+//           printf("type=%d, str=%s\n", tokens[j].type, tokens[j].str);
     if (i == NR_REGEX) {
       printf("no match at position %d\n%s\n%*.s^\n", position, e, position, "");
       return false;
@@ -146,7 +146,7 @@ bool check_parentheses(int p, int q){
 		return false;
 	else{
 		for( ; i <= q; i++){
-			if(left == right && tokens[i].type == ')')
+			if(left == right + 1 && tokens[i].type == ')')
 				return false;
 			if(tokens[i].type == '(')
 				left++;
