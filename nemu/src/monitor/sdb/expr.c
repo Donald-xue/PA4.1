@@ -146,9 +146,9 @@ static bool make_token(char *e) {
 				  printf("success\n");
 				  if(tokens[a].type == '+')
 					  tokens[a].type = '-';
-				  if(tokens[a].type == '-')
+				  else if(tokens[a].type == '-')
 					  tokens[a].type = '+';
-				  if(tokens[a].type == ')')
+				  else if(tokens[a].type == ')')
 					  break;
 			  }
 		  }
