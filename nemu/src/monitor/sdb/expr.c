@@ -145,7 +145,7 @@ static bool make_token(char *e) {
 			  for(int a = k+1; a < nr_token; a++){
 				  //printf("success\n");
 				  if(a == k+2){
-					  int b = atoi(tokens[a].str);
+					  int b = -1 * atoi(tokens[a].str);
 					  sprintf(tokens[a].str,"%d",b);
 				  }
 				  if(tokens[a].type == '+')
