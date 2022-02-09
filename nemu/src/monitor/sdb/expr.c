@@ -141,8 +141,9 @@ static bool make_token(char *e) {
 		  }
 	  if(tokens[k].type == NEGATIVE){
 		  if(tokens[k+1].type == '('){
-			  printf("success");
+			  //printf("success\n");
 			  for(int a = k+1; a < nr_token; a++){
+				  printf("success\n");
 				  if(tokens[a].type == '+')
 					  tokens[a].type = '-';
 				  if(tokens[a].type == '-')
