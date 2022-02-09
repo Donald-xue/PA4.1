@@ -16,8 +16,40 @@ static char *code_format =
 "  return 0; "
 "}";
 
+uint32_t choose(uint32_t n){
+	int seed = time(0);
+	srand(seed);
+	int num = rand() % n;
+	return num;
+}
+
+uint32_t gen_num(){
+	uint32_t i;
+	i = choose(10);
+	sprintf(buf, "%u", i);
+	return i;
+}
+
+void gen(int lr){
+	sprintf(buf, "%c", lr);
+}
+
+void gen_rand_op(){
+	int seed = time(0);
+	srand(seed);
+	int i = rand() % 4;
+	switch(i){
+		case 0: sprintf(buf, "%c", 43); break;
+		case 1: sprintf(buf, "%c", 45); break;
+		case 2: sprintf(buf, "%c", 42); break;
+		case 3: sprintf(buf, "%c", 47); break;
+	}
+}
+
 static void gen_rand_expr() {
   buf[0] = '\0';
+  switch(choose(3)){
+  }
 }
 
 int main(int argc, char *argv[]) {
