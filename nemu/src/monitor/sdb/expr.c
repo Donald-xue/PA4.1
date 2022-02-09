@@ -143,7 +143,11 @@ static bool make_token(char *e) {
 		  if(tokens[k+1].type == '('){
 			  //printf("success\n");
 			  for(int a = k+1; a < nr_token; a++){
-				  printf("success\n");
+				  //printf("success\n");
+				  if(a == k+2){
+					  int b = atoi(tokens[a].str);
+					  sprintf(tokens[a].str,"%d",b);
+				  }
 				  if(tokens[a].type == '+')
 					  tokens[a].type = '-';
 				  else if(tokens[a].type == '-')
