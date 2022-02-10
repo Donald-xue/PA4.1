@@ -15,6 +15,7 @@ static char *code_format =
 "  printf(\"%%u\", result); "
 "  return 0; "
 "}";
+static int flag = 0;
 
 uint32_t choose(uint32_t n){
 	//srand((unsigned) time(NULL));
@@ -26,30 +27,32 @@ uint32_t gen_num(){
 	uint32_t i;
 	char a[2];
 	i = choose(10);
+	//printf("num = %d\n",i);
 	sprintf(a, "%u", i);
 	strcat(buf, a);
 	return i;
 }
 
 void gen(char str){
-	//uint32_t lSpace = choose(4);
-	//uint32_t rSpace = choose(4);
+	uint32_t lSpace = choose(2);
+	uint32_t rSpace = choose(2);
 
-	//char s[lSpace + 1 + rSpace];
-    char s;
-	//uint32_t i;
+	char s[lSpace + 1 + rSpace];
+	uint32_t i;
 
-	//for (i = 0; i < lSpace; i++) s[i] = ' ';
-	s = str;
-	//for (;i < lSpace + 1 + rSpace; i++) s[i] = ' ';
-    //s[lSpace + 1 + rSpace] = '\0';
-	strcat(buf, &s);
+	for (i = 0; i < lSpace; i++) s[i] = ' ';
+	s[i++] = str;
+	for (;i < lSpace + 1 + rSpace; i++) s[i] = ' ';
+    s[lSpace + 1 + rSpace] = '\0';
+	//if(str == '(')
+	strcat(buf, s);
+	//if(str == ')')
+	//	strcat
 }
 
 void gen_rand_op(){
-	int seed = time(0);
-	srand(seed);
-	int i = rand() % 4;
+	int i = choose(4);
+	//printf("rand_op = %d\n", i);
 	switch(i){
 		case 0: gen('+'); break;
 		case 1: gen('-'); break;
@@ -59,8 +62,12 @@ void gen_rand_op(){
 }
 
 static void gen_rand_expr() {
-  buf[0] = '\0';
-  switch(choose(3)){
+  if(flag == 0){
+	buf[0] = '\0';
+	flag++;
+  }
+  int i = choose(3);
+  switch(i){
 	  case 0: gen_num(); break;
 	  case 1: gen('('); gen_rand_expr(); gen(')'); break;
 	  default: gen_rand_expr(); gen_rand_op(); gen_rand_expr(); break;
@@ -74,10 +81,13 @@ int main(int argc, char *argv[]) {
   if (argc > 1) {
     sscanf(argv[1], "%d", &loop);
   }
+  //printf("loop = %d\n", loop);
   int i;
   for (i = 0; i < loop; i ++) {
     gen_rand_expr();
 
+//	printf("buf = %s\n", buf);
+	
     sprintf(code_buf, code_format, buf);
 
     FILE *fp = fopen("/tmp/.code.c", "w");
@@ -93,9 +103,11 @@ int main(int argc, char *argv[]) {
 
     int result;
     fscanf(fp, "%d", &result);
+	printf("[loop %d]\t ", i);
     pclose(fp);
 
     printf("%u %s\n", result, buf);
+	memset(buf, '\0', 65536);
   }
   return 0;
 }

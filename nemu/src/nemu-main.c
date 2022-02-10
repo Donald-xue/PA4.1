@@ -4,6 +4,28 @@ void init_monitor(int, char *[]);
 void am_init_monitor();
 void engine_start();
 int is_exit_status_bad();
+extern word_t expr(char *e, bool *success);
+
+static void test(){
+	FILE *fp = fopen("/home/xuezeqian/ics2021/nemu/tools/gen-expr/input", "r");
+	assert(fp != NULL);
+	char gets[65536] = {};
+	char *success = gets;
+	while (success != NULL){
+		success = fgets(gets, 65536, fp);
+		unsigned int result = atoi(strtok(gets, " "));
+		char *buf;
+	    buf = strtok(NULL, "\n");
+		word_t cal = 0;
+		cal = expr(buf, NULL);
+		if(cal == result){
+			printf("right\n");
+		}
+		if(cal != result){
+			printf("wrong\n");
+		}
+	}
+}
 
 int main(int argc, char *argv[]) {
   /* Initialize the monitor. */
@@ -13,6 +35,7 @@ int main(int argc, char *argv[]) {
   init_monitor(argc, argv);
 #endif
 
+  test();
   /* Start engine. */
   engine_start();
 
