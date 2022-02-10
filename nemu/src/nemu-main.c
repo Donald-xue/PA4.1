@@ -11,6 +11,8 @@ static void test(){
 	assert(fp != NULL);
 	char gets[65536] = {};
 	char *success = gets;
+	int right = 0;
+	int wrong = 0;
 	while (success != NULL){
 		success = fgets(gets, 65536, fp);
 		unsigned int result = atoi(strtok(gets, " "));
@@ -19,12 +21,13 @@ static void test(){
 		word_t cal = 0;
 		cal = expr(buf, NULL);
 		if(cal == result){
-			printf("right\n");
+			right++;
 		}
 		if(cal != result){
-			printf("wrong\n");
+			wrong++;
 		}
 	}
+	printf("right = %d, wrong = %d", right, wrong);
 }
 
 int main(int argc, char *argv[]) {
