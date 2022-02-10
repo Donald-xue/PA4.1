@@ -17,21 +17,33 @@ static char *code_format =
 "}";
 
 uint32_t choose(uint32_t n){
-	int seed = time(0);
-	srand(seed);
-	int num = rand() % n;
+	//srand((unsigned) time(NULL));
+	uint32_t num = rand() % n;
 	return num;
 }
 
 uint32_t gen_num(){
 	uint32_t i;
+	char a[2];
 	i = choose(10);
-	sprintf(buf, "%u", i);
+	sprintf(a, "%u", i);
+	strcat(buf, a);
 	return i;
 }
 
-void gen(int lr){
-	sprintf(buf, "%c", lr);
+void gen(char str){
+	//uint32_t lSpace = choose(4);
+	//uint32_t rSpace = choose(4);
+
+	//char s[lSpace + 1 + rSpace];
+    char s;
+	//uint32_t i;
+
+	//for (i = 0; i < lSpace; i++) s[i] = ' ';
+	s = str;
+	//for (;i < lSpace + 1 + rSpace; i++) s[i] = ' ';
+    //s[lSpace + 1 + rSpace] = '\0';
+	strcat(buf, &s);
 }
 
 void gen_rand_op(){
@@ -39,10 +51,10 @@ void gen_rand_op(){
 	srand(seed);
 	int i = rand() % 4;
 	switch(i){
-		case 0: sprintf(buf, "%c", 43); break;
-		case 1: sprintf(buf, "%c", 45); break;
-		case 2: sprintf(buf, "%c", 42); break;
-		case 3: sprintf(buf, "%c", 47); break;
+		case 0: gen('+'); break;
+		case 1: gen('-'); break;
+		case 2: gen('*'); break;
+		case 3: gen('/'); break;
 	}
 }
 
