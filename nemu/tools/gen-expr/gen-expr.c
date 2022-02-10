@@ -103,7 +103,7 @@ int main(int argc, char *argv[]) {
 
     int result;
     fscanf(fp, "%d", &result);
-	printf("[loop %d]\t ", i);
+	//printf("[loop %d]\t ", i);
     pclose(fp);
 
     printf("%u %s\n", result, buf);
