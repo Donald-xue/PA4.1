@@ -4,9 +4,9 @@ void init_monitor(int, char *[]);
 void am_init_monitor();
 void engine_start();
 int is_exit_status_bad();
-extern word_t expr(char *e, bool *success);
+//extern word_t expr(char *e, bool *success);
 
-static void test(){
+/*static void test(){
 	FILE *fp = fopen("/home/xuezeqian/ics2021/nemu/tools/gen-expr/input", "r");
 	assert(fp != NULL);
 	char gets[65536] = {};
@@ -28,7 +28,7 @@ static void test(){
 		}
 	}
 	printf("right = %d, wrong = %d", right, wrong);
-}
+}*/
 
 int main(int argc, char *argv[]) {
   /* Initialize the monitor. */
@@ -38,7 +38,7 @@ int main(int argc, char *argv[]) {
   init_monitor(argc, argv);
 #endif
 
-  test();
+  //test();
   /* Start engine. */
   engine_start();
 
