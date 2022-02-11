@@ -20,6 +20,7 @@ static void test(){
 	    buf = strtok(NULL, "\n");
 		word_t cal = 0;
 		cal = expr(buf, NULL);
+		printf("asdf\n");
 		if(cal == result){
 			right++;
 		}
