@@ -205,7 +205,6 @@ bool check_parentheses(int p, int q){
 }
 
 int eval(int p, int q) {
-	divzeroflag = 0;
 	//printf ("%d\t%d\n", p, q);
   if (p > q) {
 	  printf("Evaluator is invalid!\n");
@@ -289,7 +288,7 @@ word_t expr(char *e, bool *success) {
     *success = false;
     return 0;
   }
-
+  divzeroflag = 0;
   int result;
   //size = sizeof(e);
   //printf("size = %d\n", size);
