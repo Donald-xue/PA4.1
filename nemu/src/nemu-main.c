@@ -20,13 +20,13 @@ static void test(){
 	    buf = strtok(NULL, "\n");
 		word_t cal = 0;
 		cal = expr(buf, NULL);
-		printf("asdf\n");
 		if(cal == result){
 			right++;
 		}
 		if(cal != result){
 			wrong++;
 		}
+		printf("asdf\n");
 	}
 	printf("right = %d, wrong = %d", right, wrong);
 }
