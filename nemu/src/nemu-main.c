@@ -29,7 +29,7 @@ static void test(){
 			wrong++;
 		}
 	}
-	printf("right = %d, wrong = %d", right, wrong);
+	printf("right = %d, wrong = %d, division by 0 = %d", right, wrong, divzero);
 }
 
 int main(int argc, char *argv[]) {
