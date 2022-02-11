@@ -5,6 +5,7 @@
  */
 #include <regex.h>
 
+static int divzeroflag = 0;
 extern int divzeronum;
 static int flag = 0;
 enum {
@@ -13,6 +14,11 @@ enum {
   /* TODO: Add more token types */
 
 };
+//static int divzero = 0;
+
+//static void sig_fpe(int signo){
+//  divzero = 1;
+//}
 
 static struct rule {
   const char *regex;
@@ -199,6 +205,7 @@ bool check_parentheses(int p, int q){
 }
 
 int eval(int p, int q) {
+	divzeroflag = 0;
 	//printf ("%d\t%d\n", p, q);
   if (p > q) {
 	  printf("Evaluator is invalid!\n");
@@ -262,10 +269,10 @@ int eval(int p, int q) {
         case '-': return val1 - val2;
         case '*': return val1 * val2;
         case '/': 
-				  if(val2 == 0){
+				  if(val2 == 0 || flag == 0){
 					  printf("division by zero\n");
+					  divzeroflag = 1;
 					  divzeronum++;
-					  return 0;
 				  }
 				  return val1 / val2;
 //		case NEGATIVE: return -1*val;
