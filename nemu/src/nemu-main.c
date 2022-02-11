@@ -27,7 +27,6 @@ static void test(){
 		if(cal != result){
 			wrong++;
 		}
-		printf("asdf\n");
 	}
 	printf("right = %d, wrong = %d", right, wrong);
 }
