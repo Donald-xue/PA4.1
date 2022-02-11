@@ -69,10 +69,12 @@ void gen_rand_op(){
 
 static void gen_rand_expr() {
   if(flag == 0){
-	buf[0] = '\0';
+	memset(buf, '\0', 65536);
 	flag++;
   }
   int i = choose(3);
+  if(buf[65500] != '\0')
+	  i = 0;
   switch(i){
 	  case 0: gen_num(); break;
 	  case 1: gen('('); gen_rand_expr(); gen(')'); break;
