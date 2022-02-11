@@ -40,6 +40,7 @@ int main(int argc, char *argv[]) {
 #endif
 
   test();
+  printf("asdf\n");
   /* Start engine. */
   engine_start();
 
