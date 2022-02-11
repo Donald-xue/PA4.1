@@ -269,7 +269,7 @@ int eval(int p, int q) {
         case '-': return val1 - val2;
         case '*': return val1 * val2;
         case '/': 
-				  if(val2 == 0 || flag == 0){
+				  if(val2 == 0 || divzeroflag == 0){
 					  printf("division by zero\n");
 					  divzeroflag = 1;
 					  divzeronum++;
