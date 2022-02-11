@@ -18,3 +18,4 @@ The following subprojects/components are included. Some of them are not fully im
 * [Nanos-lite](https://github.com/NJU-ProjectN/nanos-lite)
 * [Navy-apps](https://github.com/NJU-ProjectN/navy-apps)
 # NEMU
+# NEMU-PA1.2
