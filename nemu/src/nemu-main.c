@@ -15,6 +15,7 @@ static void test(){
 	int wrong = 0;
 	while (success){
 		success = fgets(gets, 65536, fp);
+		if(success == NULL)  break;
 		unsigned int result = atoi(strtok(gets, " "));
 		char *buf;
 	    buf = strtok(NULL, "\n");
