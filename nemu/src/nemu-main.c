@@ -13,7 +13,7 @@ static void test(){
 	char *success = gets;
 	int right = 0;
 	int wrong = 0;
-	while (success != NULL){
+	while (success){
 		success = fgets(gets, 65536, fp);
 		unsigned int result = atoi(strtok(gets, " "));
 		char *buf;
@@ -40,7 +40,6 @@ int main(int argc, char *argv[]) {
 #endif
 
   test();
-  printf("aaaaa\n");
   /* Start engine. */
   engine_start();
 
