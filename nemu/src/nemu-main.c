@@ -5,6 +5,7 @@ void am_init_monitor();
 void engine_start();
 int is_exit_status_bad();
 extern word_t expr(char *e, bool *success);
+int divzero = 0;
 
 static void test(){
 	FILE *fp = fopen("/home/xuezeqian/ics2021/nemu/tools/gen-expr/input", "r");

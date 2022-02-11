@@ -5,6 +5,7 @@
  */
 #include <regex.h>
 
+extern int divzero;
 static int flag = 0;
 enum {
   TK_NOTYPE = 256, TK_EQ,
@@ -263,6 +264,7 @@ int eval(int p, int q) {
         case '/': 
 				  if(val2 == 0){
 					  printf("division by zero\n");
+					  divzero++;
 					  return 0;
 				  }
 				  return val1 / val2;
