@@ -10,12 +10,22 @@ static char buf[65536] = {};
 static char code_buf[65536 + 128] = {}; // a little larger than `buf`
 static char *code_format =
 "#include <stdio.h>\n"
+"  extern int divzero; "
+"static void sig_fpe(int signo){"
+"  divzero = 1; "
+"}"
 "int main() { "
 "  unsigned result = %s; "
+"  signal(SIGFPE, sig_fpe); "
 "  printf(\"%%u\", result); "
 "  return 0; "
 "}";
 static int flag = 0;
+int divzero = 0;
+
+static void sig_fpe(int signo){
+	divzero = 1;
+}
 
 uint32_t choose(uint32_t n){
 	//srand((unsigned) time(NULL));
@@ -78,6 +88,7 @@ int main(int argc, char *argv[]) {
   int seed = time(0);
   srand(seed);
   int loop = 1;
+  signal(SIGFPE, sig_fpe);
   if (argc > 1) {
     sscanf(argv[1], "%d", &loop);
   }
@@ -105,6 +116,12 @@ int main(int argc, char *argv[]) {
     fscanf(fp, "%d", &result);
 	//printf("[loop %d]\t ", i);
     pclose(fp);
+
+	if(divzero == 1){
+		divzero = 0;
+		memset(buf, '\0', 65536);
+		continue;
+	}
 
     printf("%u %s\n", result, buf);
 	memset(buf, '\0', 65536);
