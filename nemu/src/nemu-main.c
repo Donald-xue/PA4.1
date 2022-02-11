@@ -5,7 +5,7 @@ void am_init_monitor();
 void engine_start();
 int is_exit_status_bad();
 extern word_t expr(char *e, bool *success);
-int divzero = 0;
+int divzeronum = 0;
 
 static void test(){
 	FILE *fp = fopen("/home/xuezeqian/ics2021/nemu/tools/gen-expr/input", "r");
@@ -29,7 +29,7 @@ static void test(){
 			wrong++;
 		}
 	}
-	printf("right = %d, wrong = %d, division by 0 = %d", right, wrong, divzero);
+	printf("right = %d, wrong = %d, division by 0 = %d", right, wrong, divzeronum);
 }
 
 int main(int argc, char *argv[]) {
