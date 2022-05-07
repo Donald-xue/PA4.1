@@ -8,6 +8,9 @@ static int is_batch_mode = false;
 extern NEMUState nemu_state;
 extern word_t paddr_read(paddr_t addr, int len);
 extern paddr_t host_to_guest(uint8_t *haddr);
+extern void insertwp(char *arg);
+extern void displaywp();
+extern void deletewp(int No);
 
 void init_regex();
 void init_wp_pool();
@@ -46,6 +49,8 @@ static int cmd_help(char *args);
 static int cmd_si(char *args);
 static int cmd_info(char *args);
 static int cmd_p(char *args);
+static int cmd_w(char *args);
+static int cmd_d(char *args);
 
 static struct {
   const char *name;
@@ -59,12 +64,28 @@ static struct {
   { "info", "Print status of register", cmd_info},
   { "x", "Examine memory", cmd_x },
   { "p", "Calculation", cmd_p },
+  { "w", "Set watchpoint", cmd_w},
+  { "d", "Delete watchpoint", cmd_d},
 
   /* TODO: Add more commands */
 
 };
 
 #define NR_CMD ARRLEN(cmd_table)
+
+static int cmd_d(char *args){
+	char *arg = strtok(NULL, "\n");
+	int No;
+	sscanf(arg, "%d", &No);
+	deletewp(No);
+	return 0;
+}
+
+static int cmd_w(char *args){
+	char *arg = strtok(NULL, "\n");
+	insertwp(arg);
+	return 0;
+}
 
 static int cmd_p(char *args){
 	char *arg = strtok(NULL, "\n");
@@ -135,10 +156,15 @@ static int cmd_si(char *args){
 
 static int cmd_info(char *args){
 	char *arg = strtok(NULL, " ");
-	if( strcmp (arg, "r") == 0){
+	if(strcmp (arg, "r") == 0){
 		isa_reg_display();
 		return 0;
-	}else{
+	}
+	if(strcmp (arg, "w") == 0 ){
+		displaywp();
+		return 0;
+	}
+	else{
 		return -1;
 	}
 }

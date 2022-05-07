@@ -7,18 +7,16 @@
 
 static int divzeroflag = 0;
 extern int divzeronum;
+extern word_t paddr_read(paddr_t addr, int len);
+extern const char *regs[];
+extern word_t isa_reg_str2val(const char *s, bool *success);
 static int flag = 0;
 enum {
   TK_NOTYPE = 256, TK_EQ,
-  NUMBER, NEGATIVE,
+  NUMBER, NEGATIVE, HEX, REG, TK_NEQ, TK_AND, POINTER, 
   /* TODO: Add more token types */
 
 };
-//static int divzero = 0;
-
-//static void sig_fpe(int signo){
-//  divzero = 1;
-//}
 
 static struct rule {
   const char *regex;
@@ -37,7 +35,11 @@ static struct rule {
   {"/", '/'},            // division
   {"\\(", '('},           // Left parenthesis
   {"\\)", ')'},           // Right parenthesis
-  {"\\b[0-9]\\b", NUMBER}, // number
+  {"\\b[0-9]+\\b", NUMBER}, // number
+  {"!=", TK_NEQ},
+  {"&&", TK_AND},
+  {"0[xX][0-9a-fA-F]+", HEX},
+  {"\\$[a-zA-Z0-9]+", REG},
 };
 
 #define NR_REGEX ARRLEN(rules)
@@ -130,6 +132,44 @@ static bool make_token(char *e) {
               strncpy(tokens[nr_token].str, substr_start, substr_len); 
 			  nr_token++;
 			  break;
+		  case TK_EQ:
+			  tokens[nr_token].type=TK_EQ;
+			  strncpy(tokens[nr_token].str, substr_start, substr_len);
+              nr_token++;
+              break;
+		  case TK_NEQ:
+			  tokens[nr_token].type=TK_NEQ;
+			  strncpy(tokens[nr_token].str, substr_start, substr_len);
+			  nr_token++;
+			  break;
+		  case TK_AND:
+			  tokens[nr_token].type=TK_AND;
+			  strncpy(tokens[nr_token].str, substr_start, substr_len);
+			  nr_token++;
+			  break;
+		  case HEX:
+			  tokens[nr_token].type=NUMBER;
+			  strncpy(tokens[nr_token].str, substr_start+2, substr_len-2);
+			  int dec;
+//			  printf("%s\n", tokens[nr_token].str);
+			  sscanf(tokens[nr_token].str, "%x", &dec);
+			  sprintf(tokens[nr_token].str, "%u", dec);
+			  nr_token++;
+			  break;
+		  case REG:
+			  tokens[nr_token].type=NUMBER;
+			  strncpy(tokens[nr_token].str, substr_start+1, substr_len-1);
+			  int ret;
+			  bool success = true;
+			  ret = isa_reg_str2val(tokens[nr_token].str, &success);
+			  if(success == false){
+				  printf("Can't find the register!\n");
+				  return false;
+			  }
+			  sprintf(tokens[nr_token].str, "%d", ret);
+			  nr_token++;
+//			  printf("%s\n", tokens[nr_token].str);
+			  break;
           default: TODO();
         }
         break;
@@ -143,10 +183,10 @@ static bool make_token(char *e) {
   int tail = nr_token;
   for(int k = 0; k < tail; k++){
 	  if(tokens[k].type == '-')
-		  if(k == 0 || tokens[k-1].type == '+' || tokens[k-1].type == '-' || tokens[k-1].type == '*' || tokens[k-1].type == '/' || tokens[k-1].type == '('){
+		  if(k == 0 || tokens[k-1].type == '+' || tokens[k-1].type == '-' || tokens[k-1].type == '*' || tokens[k-1].type == '/' || tokens[k-1].type == '(' || tokens[k-1].type == TK_EQ || tokens[k-1].type == TK_NEQ || tokens[k-1].type == TK_AND){
 			  tokens[k].type = NEGATIVE;
 		  }
-	  if(tokens[k].type == NEGATIVE){
+/*	  if(tokens[k].type == NEGATIVE){
 		  if(tokens[k+1].type == '('){
 			  //printf("success\n");
 			  for(int a = k+1; a < nr_token; a++){
@@ -172,6 +212,9 @@ static bool make_token(char *e) {
 		      sprintf(tokens[m].str,"%d",n);
 		  }
 		  nr_token--;
+	  }*/
+	  if (tokens[k].type == '*' && (k == 0 || tokens[k-1].type == '+' || tokens[k-1].type == '-' || tokens[k-1].type == '*' || tokens[k-1].type == '/' || tokens[k-1].type == '(' || tokens[k-1].type == TK_EQ || tokens[k-1].type == TK_NEQ || tokens[k-1].type == TK_AND)) {
+		  tokens[k].type = POINTER;
 	  }
   }
   //for (int j = 0; j < nr_token; j++)
@@ -204,8 +247,8 @@ bool check_parentheses(int p, int q){
 	}
 }
 
-int eval(int p, int q) {
-	//printf ("%d\t%d\n", p, q);
+unsigned int eval(int p, int q) {
+//	printf ("%d\t%d\n", p, q);
   if (p > q) {
 	  printf("Evaluator is invalid!\n");
 	  assert(0);
@@ -213,6 +256,8 @@ int eval(int p, int q) {
   }
   else if (p == q) {
 	  if(tokens[p].type == NUMBER){
+//		  unsigned int i = 0;
+//		  sprintf(tokens[nr_token].str, "%u", i);
 		  int i = atoi(tokens[p].str);
 		  return i;
 	  }
@@ -229,7 +274,7 @@ int eval(int p, int q) {
     return eval(p + 1, q - 1);
   }
   else if (check_parentheses(p, q) == true && flag == 1){
-	  printf("Evaluator is invalid!\n");
+	  printf("Evaluator is invalid!!\n");
 	  assert(0);
   }
   else {
@@ -240,21 +285,51 @@ int eval(int p, int q) {
 		  if (tokens[j].type == ')')
 			  num--;
 		  if (num == 0){
+			  if(tokens[j].type == TK_AND){
+				  operator = j;
+			  }
+			  if(tokens[j].type == TK_EQ || tokens[j].type == TK_NEQ){
+				  if(operator == p || tokens[operator].type == '+' || tokens[operator].type == '-' || tokens[operator].type == '*' || tokens[operator].type == '/' || tokens[operator].type == POINTER || tokens[operator].type == NEGATIVE || tokens[operator].type == TK_EQ || tokens[operator].type == TK_NEQ || tokens[operator].type == HEX || tokens[operator].type == REG){
+					  operator = j;
+				  }
+			  }
 			  if (tokens[j].type == '+' || tokens[j].type == '-'){
+				  if(operator == p || tokens[operator].type == '+' || tokens[operator].type == '-' || tokens[operator].type == '*' || tokens[operator].type == '/' || tokens[operator].type == POINTER || tokens[operator].type == NEGATIVE || tokens[operator].type == HEX || tokens[operator].type == REG)
 					  operator = j;
 			  }
 			  if(tokens[j].type == '*' || tokens[j].type == '/'){
-				  if(operator == p || tokens[operator].type == '*' || tokens[operator].type == '/'){
+				  if(tokens[operator].type == NEGATIVE || tokens[operator].type == POINTER || operator == p || tokens[operator].type == '*' || tokens[operator].type == '/' || tokens[operator].type == HEX || tokens[operator].type == REG){
 					  operator = j;
 				  }
 		      }
+			  if(tokens[j].type == NEGATIVE){
+				  if(operator == p || tokens[operator].type == NEGATIVE || tokens[operator].type == POINTER || tokens[operator].type == HEX || tokens[operator].type == REG)
+					  operator = j;
+			  }
+			  if(tokens[j].type == POINTER){
+				  if(operator == p || tokens[operator].type == POINTER || tokens[operator].type == HEX || tokens[operator].type == REG){
+					  operator = j;
+				  }
+			  }
+			  if(tokens[j].type == REG){
+				  if(operator == p || tokens[operator].type == HEX)
+					  operator = j;
+			  }
+			  if(tokens[j].type == HEX){
+				  if(operator == p)
+					  operator = j;
+			  }
 	      }
 		  //printf("op = %d", operator);
 	  }
 
 	  int op = operator;
-	  //printf("operator = %d\n", op);
-	  int val1 = eval(p, op - 1);
+//	  printf("operator = %d\n", op);
+	  int val1 = 0;
+	  if(tokens[op].type != NEGATIVE && tokens[op].type != POINTER && tokens[op].type != HEX && tokens[op].type != REG){
+//	  printf("operator = %d\n", op);
+		val1 = eval(p, op - 1);
+	  }
 	  int val2 = eval(op + 1, q); 
 /*	  if(tokens[op].type == NEGATIVE){
 		  if(op != 0){
@@ -264,6 +339,24 @@ int eval(int p, int q) {
 	  }*/
 
       switch (tokens[op].type) {
+/*		case REG:{
+					 int val;
+					 char s[4];
+					 char *ss;
+					 ss = s;
+					 strcpy(ss, regs[val2]);
+					 printf("%s\n", s);
+					 val = isa_reg_str2val(s, NULL);
+					 return val;
+				 }*/
+//		case HEX: return val2;
+		case NEGATIVE: return -1*val2;
+		case POINTER: {
+						  return paddr_read(val2, 4);
+					  }
+		case TK_AND: return val1 && val2;
+		case TK_EQ: return val1 == val2;
+		case TK_NEQ: return val1 != val2;
         case '+': return val1 + val2;
         case '-': return val1 - val2;
         case '*': return val1 * val2;
@@ -277,7 +370,6 @@ int eval(int p, int q) {
 					  return 0;
 				  }
 				  return val1 / val2;
-//		case NEGATIVE: return -1*val;
         default: assert(0);
 	}
   }
@@ -289,11 +381,15 @@ word_t expr(char *e, bool *success) {
     return 0;
   }
   divzeroflag = 0;
-  int result;
+  unsigned int result;
   //size = sizeof(e);
   //printf("size = %d\n", size);
   result = eval(0, nr_token-1);
-  printf("result = %d\n", result);
+  printf("result = %u\n", result);
+  for(int i = 0; i < nr_token; i++){
+	  memset(tokens[i].str, 0, sizeof(tokens[i].str));
+	  tokens[i].type = 0;
+  }
   return result;
   /* TODO: Insert codes to evaluate the expression. */
   TODO();

@@ -6,7 +6,7 @@ void engine_start();
 int is_exit_status_bad();
 extern word_t expr(char *e, bool *success);
 int divzeronum = 0;
-
+/*
 static void test(){
 	FILE *fp = fopen("/home/xuezeqian/ics2021/nemu/tools/gen-expr/input", "r");
 	assert(fp != NULL);
@@ -29,9 +29,9 @@ static void test(){
 			wrong++;
 		}
 	}
-	printf("right = %d, wrong = %d, division by 0 = %d\n", right, wrong, divzeronum);
+	printf("right = %d, wrong = %d\n", right, wrong);
 }
-
+*/
 int main(int argc, char *argv[]) {
   /* Initialize the monitor. */
 #ifdef CONFIG_TARGET_AM
@@ -40,7 +40,7 @@ int main(int argc, char *argv[]) {
   init_monitor(argc, argv);
 #endif
 
-  test();
+//  test();
   /* Start engine. */
   engine_start();
 

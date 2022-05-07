@@ -11,8 +11,17 @@ static char buf[65536] = {};
 static char code_buf[65536 + 128] = {}; // a little larger than `buf`
 static char *code_format =
 "#include <stdio.h>\n"
+"#include <signal.h>\n"
+"static int fpe = 0 ;"
+"static void sig_fpe(int signo){ "
+"  signal(SIGFPE, sig_fpe); "
+"  fpe = -1; "
+"  printf(\"%%d\", fpe); "
+"}"
 "int main() { "
+"  signal(SIGFPE, sig_fpe); "
 "  unsigned result = %s; "
+"  if(fpe == 0) "
 "  printf(\"%%u\", result); "
 "  return 0; "
 "}";
@@ -105,13 +114,23 @@ int main(int argc, char *argv[]) {
     fclose(fp);
 
     int ret = system("gcc /tmp/.code.c -o /tmp/.expr");
-    if (ret != 0) continue;
+    if (ret != 0){
+		i--;
+		memset(buf, '\0', 65536);
+		continue;
+	}
 
     fp = popen("/tmp/.expr", "r");
     assert(fp != NULL);
 
     int result;
     fscanf(fp, "%d", &result);
+	if(result == -1){
+		pclose(fp);
+		memset(buf, '\0', 65536);
+		i--;
+		continue;
+	}
 	//printf("[loop %d]\t ", i);
     pclose(fp);
 

@@ -5,6 +5,8 @@
 #error "Should be only included by <rtl/rtl.h>"
 #endif
 
+extern const char *regs[];
+
 /* RTL pseudo instructions */
 
 static inline def_rtl(li, rtlreg_t* dest, const rtlreg_t imm) {
@@ -27,7 +29,15 @@ static inline def_rtl(neg, rtlreg_t *dest, const rtlreg_t* src1) {
 
 static inline def_rtl(sext, rtlreg_t* dest, const rtlreg_t* src1, int width) {
   // dest <- signext(src1[(width * 8 - 1) .. 0])
-  TODO();
+  int32_t temp = *src1;
+  switch(width) {
+    case 4: *dest = *src1; return;
+    case 3: temp = temp <<  8; *dest = temp >>  8; return;
+    case 2: temp = temp << 16; *dest = temp >> 16; return;
+    case 1: temp = temp << 24; *dest = temp >> 24; return;
+    default: assert(0);
+  }
+  //TODO();
 }
 
 static inline def_rtl(zext, rtlreg_t* dest, const rtlreg_t* src1, int width) {

@@ -52,6 +52,50 @@ uint64_t get_time();
   } while (0) \
 )
 
+#define ftrace_write(...) IFDEF(CONFIG_TARGET_NATIVE_ELF, \
+  do { \
+    extern FILE* dest_fp; \
+    extern bool log_enable(); \
+    if (log_enable()) { \
+      fprintf(dest_fp, __VA_ARGS__); \
+      fflush(dest_fp); \
+    } \
+  } while (0) \
+)
+
+#define ring_write(...) IFDEF(CONFIG_TARGET_NATIVE_ELF, \
+		do {\
+		extern FILE* ring_fp; \
+		extern bool log_enable(); \
+		if (log_enable()) { \
+		fprintf(ring_fp, __VA_ARGS__); \
+		fflush(ring_fp);\
+		}\
+	}while (0) \
+)
+
+#define mtrace_write(...) IFDEF(CONFIG_TARGET_NATIVE_ELF, \
+        do {\
+        extern FILE* mem_fp; \
+        extern bool log_enable(); \
+        if (log_enable()) { \
+        fprintf(mem_fp, __VA_ARGS__); \
+        fflush(mem_fp);\
+        }\
+    }while (0) \
+)
+
+#define dtrace_write(...) IFDEF(CONFIG_TARGET_NATIVE_ELF, \
+        do {\
+        extern FILE* dev_fp; \
+        extern bool log_enable(); \
+        if (log_enable()) { \
+        fprintf(dev_fp, __VA_ARGS__); \
+        fflush(dev_fp);\
+        }\
+    }while (0) \
+)
+
 #define _Log(...) \
   do { \
     printf(__VA_ARGS__); \

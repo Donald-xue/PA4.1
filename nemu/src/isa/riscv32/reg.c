@@ -17,5 +17,29 @@ void isa_reg_display() {
 }
 
 word_t isa_reg_str2val(const char *s, bool *success) {
-  return 0;
+	int val = 0,i = 0, pc = 0;
+	if(strcmp(s, "pc") == 0){
+		pc = 1;
+		val = cpu.pc;
+		return val;
+	}
+	for(; i < 32; i++){
+		if(strcmp(s,regs[i]) == 0){
+			val = cpu.gpr[i]._32;
+			break;
+		}
+		if(strcmp(s, "pc") == 0){
+			val = cpu.pc;
+			break;
+		}
+	}
+	if(i < 32 || pc == 1)
+		*success = true;
+	if(i == 32 && pc == 0){
+		*success = false;
+		printf("Can't find the register!\n");
+//		assert(0);
+	}
+//	printf("%u\n", (int)success);
+	return val;
 }

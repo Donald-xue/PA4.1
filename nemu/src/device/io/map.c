@@ -4,7 +4,6 @@
 #include <device/map.h>
 
 #define IO_SPACE_MAX (2 * 1024 * 1024)
-
 static uint8_t *io_space = NULL;
 static uint8_t *p_space = NULL;
 
@@ -36,13 +35,20 @@ void init_map() {
   assert(io_space);
   p_space = io_space;
 }
+/*
+void free_map(){
+	free(io_space);
+}*/
 
 word_t map_read(paddr_t addr, int len, IOMap *map) {
   assert(len >= 1 && len <= 8);
   check_bound(map, addr);
   paddr_t offset = addr - map->low;
   invoke_callback(map->callback, offset, len, false); // prepare data to read
+//  if(strcmp(map->name, "rtc") == 0)
+//	  len = 8;
   word_t ret = host_read(map->space + offset, len);
+  dtrace_write("read from device %s, length = %d, data read: 0x%x,\n", map->name, len, ret);
   return ret;
 }
 
@@ -52,4 +58,5 @@ void map_write(paddr_t addr, int len, word_t data, IOMap *map) {
   paddr_t offset = addr - map->low;
   host_write(map->space + offset, len, data);
   invoke_callback(map->callback, offset, len, true);
+  dtrace_write("write to device %s, length = %d, data written: 0x%x.\n", map->name, len, data);
 }
