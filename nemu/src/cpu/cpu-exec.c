@@ -19,7 +19,7 @@ static bool g_print_step = false;
 const rtlreg_t rzero = 0;
 rtlreg_t tmp_reg[4];
 extern int checkwp();
-#ifdef CONFIG_ITRACE
+#ifdef CONFIG_TRACE
 static char r0[128] = {'\0'};
 static char r1[128] = {'\0'};
 static char r2[128] = {'\0'};
