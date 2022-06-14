@@ -77,9 +77,11 @@ static inline void update_screen() {
 
 void vga_update_screen() {
 	int s = screen_sync();
+	vgactl_port_base[1] = 1;
 	if(s != 0)  
 		update_screen();
 	screen_syncset();
+	vgactl_port_base[1] = 0;
 //	if(nemu_state.state != NEMU_RUNNING && nemu_state.state != NEMU_STOP)
 //		destory_screen();
   // TODO: call `update_screen()` when the sync register is non-zero,
