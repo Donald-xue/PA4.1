@@ -36,12 +36,14 @@ void init_ftrace(const char *ftrace_file, const char *dest_file) {
 		ftrace_fp = fp;
 	}else{
 		elf64 = 1;
-		char *buffer;
+		char *buffer, ffile[64], *ftfile;
+		ftfile = ffile;
 	if((buffer = getcwd(NULL,0))==NULL){
 		assert(0);
 	}
 	else{
-		printf("%s\n",buffer);
+		sprintf(ftfile, "%s\n",buffer);
+		printf("%s\n", ftfile);
 		free(buffer);
 	}
 		ftrace_file = "/home/xuezeqian/ics2021/nemu/build/riscv32-nemu-interpreter";
