@@ -355,7 +355,7 @@
 #include <klib-macros.h>
 
 static uint32_t uptime_ms() { 
-printf("%d\n", io_read(AM_TIMER_UPTIME).us/1000);
+//printf("%d\n", io_read(AM_TIMER_UPTIME).us/1000);
 return io_read(AM_TIMER_UPTIME).us/1000; }
 #define Start_Timer() Begin_Time = uptime_ms()
 #define Stop_Timer()  End_Time   = uptime_ms()

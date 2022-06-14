@@ -12,7 +12,11 @@ void __am_timer_init() {
 }
 
 void __am_timer_uptime(AM_TIMER_UPTIME_T *uptime) {
-	uint64_t now = * (volatile uint64_t*) RTC_ADDR;
+	uint32_t high = * (volatile uint32_t*) (RTC_ADDR + 4);
+	uint32_t low = * (volatile uint32_t*) (RTC_ADDR);
+	uint64_t now = (uint64_t) high;
+	now = now << 32;
+	now = now + (uint64_t)low;
 	uptime->us = now;
 //	printf("us = %d\n", ticks);
 }
