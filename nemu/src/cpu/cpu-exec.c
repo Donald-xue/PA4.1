@@ -19,7 +19,7 @@ static bool g_print_step = false;
 const rtlreg_t rzero = 0;
 rtlreg_t tmp_reg[4];
 extern int checkwp();
-#ifdef CONFIG_TRACE_COND
+#ifdef ITRACE_COND
 static char r0[128] = {'\0'};
 static char r1[128] = {'\0'};
 static char r2[128] = {'\0'};
@@ -94,7 +94,7 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 	  }
 		  if(nemu_state.state == NEMU_END)
 			  ring_write("Nothing wrong while running program, no need for iringbuf\n");
-  }
+  } 
 #endif
   if (g_print_step) { IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); }
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
