@@ -36,13 +36,13 @@ void init_ftrace(const char *ftrace_file, const char *dest_file) {
 		ftrace_fp = fp;
 	}else{
 		elf64 = 1;
-		char *buffer, ffile[64], *ftfile;
+		char *buffer, ffile[128], *ftfile;
 		ftfile = ffile;
 	if((buffer = getcwd(NULL,0))==NULL){
 		assert(0);
 	}
 	else{
-		sprintf(ftfile, "%s\n",buffer);
+		sprintf(ftfile, "%s", buffer);
 		printf("%s\n", ftfile);
 		free(buffer);
 	}
