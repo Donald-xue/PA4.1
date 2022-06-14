@@ -1,5 +1,7 @@
 #include <common.h>
 #include <elf.h>
+#include <stdio.h>
+#include <unistd.h>
 
 Elf32_Shdr *shdr = NULL;
 Elf64_Shdr *shdr64 = NULL;
@@ -34,14 +36,14 @@ void init_ftrace(const char *ftrace_file, const char *dest_file) {
 		ftrace_fp = fp;
 	}else{
 		elf64 = 1;
-/*		char *buffer;
-	    if((buffer = getcwd(NULL,0)) == NULL){
-		    assert(0);
-	    }
+		char *buffer;
+	if((buffer = getcwd(NULL,0))==NULL){
+		assert(0);
+	}
 	else{
 		printf("%s\n",buffer);
 		free(buffer);
-	}*/
+	}
 		ftrace_file = "/home/xuezeqian/ics2021/nemu/build/riscv32-nemu-interpreter";
 		FILE *fp = fopen(ftrace_file, "r");
         Assert(fp, "Can not open '%s'", ftrace_file);
