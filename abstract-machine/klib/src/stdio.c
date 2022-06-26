@@ -45,9 +45,9 @@ static int outs (const char *s)
     return 0;
 }
 
-static int out_num(long n, int base,char lead,int maxwidth) 
+static int out_num(long long n, int base,char lead,int maxwidth) 
 {
-    long m=0;
+    long long m=0;
     char buf[128], *s = buf + sizeof(buf);
     int count=0,i=0;
             
