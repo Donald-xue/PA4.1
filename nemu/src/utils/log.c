@@ -43,12 +43,12 @@ void init_ftrace(const char *ftrace_file, const char *dest_file) {
 	}
 	else{
 		sprintf(ftfile, "%s", buffer);
-		printf("%s\n", ftfile);
+//		printf("%s\n", ftfile);
 		free(buffer);
 	}
 	strcat(ftfile, "/build/riscv32-nemu-interpreter");
 	ftrace_file = ftfile;
-	printf("%s\n", ftrace_file);
+//	printf("%s\n", ftrace_file);
 	//		ftrace_file = "/home/xuezeqian/ics2021/nemu/build/riscv32-nemu-interpreter";
 		FILE *fp = fopen(ftrace_file, "r");
         Assert(fp, "Can not open '%s'", ftrace_file);
