@@ -127,7 +127,7 @@ int printf(const char *fmt, ...) {
                 
             default:{	
 						outc(*f);
-						assert(0);
+//						assert(0);
 					}
                 break;
             }
