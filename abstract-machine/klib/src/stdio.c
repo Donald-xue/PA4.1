@@ -45,9 +45,9 @@ static int outs (const char *s)
     return 0;
 }
 
-static int out_num(long long n, int base,char lead,int maxwidth) 
+static int out_num(long n, int base,char lead,int maxwidth) 
 {
-    long long m=0;
+    long m=0;
     char buf[128], *s = buf + sizeof(buf);
     int count=0,i=0;
             
@@ -124,7 +124,7 @@ int printf(const char *fmt, ...) {
         case 'x': out_num(va_arg(ap, unsigned int), 16,lead,maxwidth); break;
             case 'c': outc(va_arg(ap, int   )); break;        
             case 's': outs(va_arg(ap, char *)); break;
-			case 'p': out_num(va_arg(ap, long long), 16,lead,maxwidth); break;				  
+			case 'p': out_num(va_arg(ap, long), 16,lead,maxwidth); break;				  
                 
             default:{	
 						outc(*f);
