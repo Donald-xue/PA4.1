@@ -124,7 +124,7 @@ int printf(const char *fmt, ...) {
         case 'x': out_num(va_arg(ap, unsigned int), 16,lead,maxwidth); break;
             case 'c': outc(va_arg(ap, int   )); break;        
             case 's': outs(va_arg(ap, char *)); break;
-			case 'p': out_num(va_arg(ap, unsigned int), 16,lead,maxwidth); break;				  
+			case 'p': out_num(va_arg(ap, int), 16,lead,maxwidth); break;				  
                 
             default:{	
 						outc(*f);
