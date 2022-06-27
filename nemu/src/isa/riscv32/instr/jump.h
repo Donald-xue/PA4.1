@@ -5,7 +5,7 @@ extern char *sym_data;
 extern word_t isa_raise_intr(word_t NO, vaddr_t epc);
 
 def_EHelper(ecall) {
-	printf("!!!!!!!!!cpu.gpr[17]._32 = %d", gpr(17));
+	printf("!!!!!!!!!pc = %d", cpu.pc);
 	isa_raise_intr(cpu.gpr[17]._32, cpu.pc);
 }
 
