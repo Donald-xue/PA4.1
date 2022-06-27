@@ -3,6 +3,14 @@ def_EHelper(lui) {
     rtl_li(s, ddest, id_src1->imm);
 }
 
+def_EHelper(csrrw){
+	if(id_src2->imm == 305){
+		unsigned int t = cpu.mtvec;
+		cpu.mtvec = *dsrc1;
+		*ddest = t;
+	}
+}
+
 def_EHelper(xori){
 	rtl_xori(s, ddest, dsrc1, id_src2->imm);
 }
