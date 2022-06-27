@@ -7,6 +7,7 @@ def_EHelper(csrrw){
 	if(id_src2->imm == 305){
 		unsigned int t = cpu.mtvec;
 		cpu.mtvec = *dsrc1;
+		printf("!!!!!!!!cpu.mtvec = %x", cpu.mtvec);
 		*ddest = t;
 	}
 }
