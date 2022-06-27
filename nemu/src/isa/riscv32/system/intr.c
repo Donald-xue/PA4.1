@@ -8,6 +8,7 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
    */
 	cpu.mepc = epc;
 	cpu.mcause = NO;
+	cpu.mcause = 1;
 	uint32_t no = cpu.mtvec;
 	printf("!!!!!!!!NO in isa = %x", cpu.mcause);
 	cpu.pc = no;
