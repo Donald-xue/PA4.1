@@ -7,6 +7,7 @@ extern word_t isa_raise_intr(word_t NO, vaddr_t epc);
 def_EHelper(ecall) {
 //	printf("!!!!!!!!!pc = %x", cpu.pc);
 	isa_raise_intr(cpu.gpr[17]._32, cpu.pc);
+	printf("!!!!!!!!!pc = %x", cpu.pc);
 }
 
 def_EHelper(bne) {
