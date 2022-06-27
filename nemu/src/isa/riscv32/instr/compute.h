@@ -27,6 +27,7 @@ def_EHelper(csrrw){
 def_EHelper(csrrs){
 	if(id_src2->imm == 834){
         unsigned int t = cpu.mcause;
+		printf("!!!!!!!!cpu.mcause = %x, dsrc1 = %x\n", cpu.mcause, *dsrc1);
         cpu.mcause = t | *dsrc1;
       printf("!!!!!!!!cpu.mcause = %x", cpu.mcause);
         *ddest = t;
