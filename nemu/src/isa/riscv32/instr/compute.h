@@ -7,9 +7,18 @@ def_EHelper(csrrw){
 	if(id_src2->imm == 773){
 		unsigned int t = cpu.mtvec;
 		cpu.mtvec = *dsrc1;
-		printf("!!!!!!!!cpu.mtvec = %x", cpu.mtvec);
+//		printf("!!!!!!!!cpu.mtvec = %x", cpu.mtvec);
 		*ddest = t;
 	}
+}
+
+def_EHelper(csrrs){
+	if(id_src2->imm == 834){
+        unsigned int t = cpu.mcause;
+        cpu.mtvec = t | *dsrc1;
+//      printf("!!!!!!!!cpu.mtvec = %x", cpu.mtvec);
+        *ddest = t;
+    }
 }
 
 def_EHelper(xori){
