@@ -10,25 +10,37 @@ def_EHelper(csrrw){
 //		printf("!!!!!!!!cpu.mtvec = %x", cpu.mtvec);
 		*ddest = t;
 	}
+	if(id_src2->imm == 768){
+        unsigned int t = cpu.mstatus;
+        cpu.mstatus = *dsrc1;
+//      printf("!!!!!!!!cpu.mstatus = %x", cpu.mstatus);
+        *ddest = t;
+    }
+	if(id_src2->imm == 768){
+        unsigned int t = cpu.mepc;
+        cpu.mepc = *dsrc1;
+//      printf("!!!!!!!!cpu.mstatus = %x", cpu.mstatus);
+        *ddest = t;
+    }
 }
 
 def_EHelper(csrrs){
 	if(id_src2->imm == 834){
         unsigned int t = cpu.mcause;
         cpu.mcause = t | *dsrc1;
-      printf("!!!!!!!!cpu.mcause = %x", cpu.mcause);
+//      printf("!!!!!!!!cpu.mcause = %x", cpu.mcause);
         *ddest = t;
     }
 	if(id_src2->imm == 768){
         unsigned int t = cpu.mstatus;
         cpu.mstatus = t | *dsrc1;
-      printf("!!!!!!!!cpu.mstatus = %x", cpu.mstatus);
+//      printf("!!!!!!!!cpu.mstatus = %x", cpu.mstatus);
         *ddest = t;
     }
 	if(id_src2->imm == 833){
         unsigned int t = cpu.mepc;
         cpu.mepc = t | *dsrc1;
-      printf("!!!!!!!!cpu.mepc = %x", cpu.mepc);
+//      printf("!!!!!!!!cpu.mepc = %x", cpu.mepc);
         *ddest = t;
     }
 }
