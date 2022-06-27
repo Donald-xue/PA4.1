@@ -8,7 +8,7 @@ def_EHelper(ecall) {
 //	printf("!!!!!!!!!pc = %x", cpu.pc);
 	isa_raise_intr(cpu.gpr[17]._32, cpu.pc);
 //	s->dnpc = cpu.pc;
-//	printf("!!!!!!!!!pc = %x", cpu.pc);
+	printf("!!!!!!!!!pc = %x", cpu.pc);
 }
 
 def_EHelper(bne) {
