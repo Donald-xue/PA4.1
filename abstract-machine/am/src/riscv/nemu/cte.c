@@ -8,13 +8,13 @@ Context* __am_irq_handle(Context *c) {
 	for(int i = 0; i < 32; i++){
 		printf("gpr(%d) = %x\n", i, c->gpr[i]);
 	}
+	
 //	printf("%x %x %x\n", c->mcause, c->mstatus, c->mepc);
   if (user_handler) {
     Event ev = {0};
     switch (c->mcause) {
       default: ev.event = EVENT_ERROR; break;
     }
-
     c = user_handler(ev, c);
     assert(c != NULL);
   }
