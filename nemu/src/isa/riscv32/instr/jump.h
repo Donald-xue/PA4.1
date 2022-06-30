@@ -14,6 +14,10 @@ def_EHelper(ecall) {
 //	printf("!!!!!!!!!pc = %x", cpu.pc);
 }
 
+def_EHelper(mret) {
+	s->dnpc = cpu.mepc;
+}
+
 def_EHelper(bne) {
     if(*dsrc1 != *ddest){
         uint32_t off = id_src2->imm;
