@@ -10,7 +10,7 @@ def_EHelper(ecall) {
 //	isa_reg_display();
 	isa_raise_intr(cpu.gpr[17]._32, cpu.pc);
 	s->dnpc = cpu.pc;
-	isa_reg_display();
+//	isa_reg_display();
 //	printf("!!!!!!!!!pc = %x", cpu.pc);
 }
 
