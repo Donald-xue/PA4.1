@@ -24,13 +24,14 @@ def_EHelper(csrrw){
     }
 }
 
+#ifdef CONFIG_TRACE
 void exctrace(uint32_t cause){
 	switch(cause){
-            case 0xffffffff: etrace_write("Get an EVENT_YIELD!\n"); 
-							 printf("!@\n"); break;
+            case 0xffffffff: etrace_write("Get an EVENT_YIELD!\n");  break;
             default: etrace_write("Undefined mcause in etrace!\n"); break;
         }
 }
+#endif
 
 def_EHelper(csrrs){
 	if(id_src2->imm == 834){
