@@ -26,7 +26,8 @@ def_EHelper(csrrw){
 
 void exctrace(uint32_t cause){
 	switch(cause){
-            case 0xffffffff: etrace_write("Get an EVENT_YIELD!\n"); break;
+            case 0xffffffff: etrace_write("Get an EVENT_YIELD!\n"); 
+							 printf("!@\n"); break;
             default: etrace_write("Undefined mcause in etrace!\n"); break;
         }
 }
