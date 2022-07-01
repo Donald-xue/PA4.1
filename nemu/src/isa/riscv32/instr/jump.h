@@ -20,6 +20,35 @@ def_EHelper(mret) {
 	}
 }
 
+def_EHelper(csrrs){
+    if(id_src2->imm == 834){
+        unsigned int t = cpu.mcause;
+//      printf("!!!!!!!!cpu.mcause = %x, dsrc1 = %x\n", cpu.mcause, *dsrc1);
+        cpu.mcause = t | *dsrc1;
+//      printf("!!!!!!!!cpu.mcause = %x", cpu.mcause);
+        *ddest = t;
+#ifdef CONFIG_TRACE
+/*      switch(cpu.mcause){
+            case 0xffffffff: etrace_write("Get an EVENT_YIELD!\n"); break;
+            default: etrace_write("Undefined mcause in etrace!\n"); break;
+        }*/
+//      exctrace(cpu.mcause);
+#endif
+    }
+    if(id_src2->imm == 768){
+        unsigned int t = cpu.mstatus;
+        cpu.mstatus = t | *dsrc1;
+//      printf("!!!!!!!!cpu.mstatus = %x", cpu.mstatus);
+        *ddest = t;
+    }
+    if(id_src2->imm == 833){
+        unsigned int t = cpu.mepc;
+        cpu.mepc = t | *dsrc1;
+//      printf("!!!!!!!!cpu.mepc = %x", cpu.mepc);
+        *ddest = t;
+    }
+}
+
 def_EHelper(bne) {
     if(*dsrc1 != *ddest){
         uint32_t off = id_src2->imm;
@@ -270,7 +299,6 @@ def_EHelper(jalr) {
 //	if(*ddest == 0 && id_src2->imm == 0 && *dsrc1 == gpr(1)){
 #ifdef CONFIG_TRACE
 	functrace(s->dnpc, s->pc, func);
-	etrace_write("Get an EVENT_YIELD!\n");
 #endif
 //		printf("!!ret pc = %x\n", s->pc);
 //	}
