@@ -85,17 +85,6 @@ uint64_t get_time();
     }while (0) \
 )
 
-#define dtrace_write(...) IFDEF(CONFIG_TARGET_NATIVE_ELF, \
-        do {\
-        extern FILE* dev_fp; \
-        extern bool log_enable(); \
-        if (log_enable()) { \
-        fprintf(dev_fp, __VA_ARGS__); \
-        fflush(dev_fp);\
-         }\
-    }while (0) \
-)
-
 #define etrace_write(...) IFDEF(CONFIG_TARGET_NATIVE_ELF, \
         do {\
         extern FILE* exc_fp; \
@@ -103,6 +92,17 @@ uint64_t get_time();
         if (log_enable()) { \
         fprintf(exc_fp, __VA_ARGS__); \
         fflush(exc_fp);\
+         }\
+    }while (0) \
+) 
+
+#define dtrace_write(...) IFDEF(CONFIG_TARGET_NATIVE_ELF, \
+        do {\
+        extern FILE* dev_fp; \
+        extern bool log_enable(); \
+        if (log_enable()) { \
+        fprintf(dev_fp, __VA_ARGS__); \
+        fflush(dev_fp);\
          }\
     }while (0) \
 )
