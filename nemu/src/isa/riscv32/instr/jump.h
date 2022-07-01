@@ -270,6 +270,7 @@ def_EHelper(jalr) {
 //	if(*ddest == 0 && id_src2->imm == 0 && *dsrc1 == gpr(1)){
 #ifdef CONFIG_TRACE
 	functrace(s->dnpc, s->pc, func);
+	etrace_write("Get an EVENT_YIELD!\n");
 #endif
 //		printf("!!ret pc = %x\n", s->pc);
 //	}
