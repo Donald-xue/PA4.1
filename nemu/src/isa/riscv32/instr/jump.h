@@ -3,7 +3,7 @@ extern int fnum;
 extern char *sign_data;                                                  
 extern char *sym_data;
 extern word_t isa_raise_intr(word_t NO, vaddr_t epc);
-extern void isa_reg_display();
+//extern void isa_reg_display();
 
 def_EHelper(ecall) {
 //	printf("!!!!!!!!!pc = %x", cpu.pc);

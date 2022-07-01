@@ -31,6 +31,12 @@ def_EHelper(csrrs){
         cpu.mcause = t | *dsrc1;
 //      printf("!!!!!!!!cpu.mcause = %x", cpu.mcause);
         *ddest = t;
+#ifdef CONFIG_TRACE
+		switch(cpu.mcause){
+			case 0xffffffff: etrace_write("Get an EVENT_YIELD!\n"); break;
+			default: etrace_write("Undefined mcause in etrace!\n"); break;
+		}
+#endif
     }
 	if(id_src2->imm == 768){
         unsigned int t = cpu.mstatus;

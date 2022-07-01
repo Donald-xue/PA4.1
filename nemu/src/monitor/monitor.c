@@ -7,6 +7,7 @@ void init_ring(const char *ring_file);
 void init_devtrace(const char *dev_file);
 void init_memtrace(const char *mem_file);
 void init_ftrace(const char *ftrace_file, const char *dest_file);
+void init_exctrace(const char *exc_file);
 void init_mem();
 void init_difftest(char *ref_so_file, long img_size, int port);
 void init_device();
@@ -51,6 +52,7 @@ static long load_img() {
   ring_write("The image is %s, size = %ld\n", img_file, size);
   mtrace_write("The image is %s, size = %ld\n", img_file, size);
   dtrace_write("The image is %s, size = %ld\n", img_file, size);
+  etrace_write("The image is %s, size = %ld\n", img_file, size);
 
   fseek(fp, 0, SEEK_SET);
   int ret = fread(guest_to_host(RESET_VECTOR), size, 1, fp);
@@ -155,6 +157,17 @@ void init_monitor(int argc, char *argv[]) {
   strcat(dtracebuf, dtracename);
 //  printf("%s\n", ring);
   init_devtrace(dtracebuf);
+
+  char etracebuf[128] = {'\0'};
+  strcpy(etracebuf, log);
+  int etracelen = strlen(etracebuf);
+  char * etrace_file = etracebuf;
+  etrace_file = etrace_file + (char) etracelen - (char)12;
+  memset(etrace_file, '\0', 12);
+  char etracename[16] = "etrace.txt";
+  strcat(etracebuf, etracename);
+//  printf("%s\n", ring);
+  init_exctrace(etracebuf);
 #endif
 
   /* Initialize memory. */

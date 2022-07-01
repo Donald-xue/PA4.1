@@ -13,6 +13,7 @@ FILE *log_fp = NULL;
 FILE *ring_fp = NULL;
 FILE *mem_fp = NULL;
 FILE *dev_fp = NULL;
+FILE *exc_fp = NULL;
 FILE *ftrace_fp = NULL;
 FILE *dest_fp = NULL;
 int fnum = 0;
@@ -297,6 +298,16 @@ void init_devtrace(const char *dev_file) {
         dev_fp = fp;
     }
     Log("dtrace is written to %s", dev_file ? dev_file : "stdout");
+}
+
+void init_exctrace(const char *exc_file) {
+    exc_fp = stdout;                               
+    if (exc_file != NULL) {
+        FILE *fp = fopen(exc_file, "w");
+        Assert(fp, "Can not open '%s'", exc_file);
+        exc_fp = fp;
+    }
+    Log("etrace is written to %s", exc_file ? exc_file : "stdout");
 }
 
 bool log_enable() {
