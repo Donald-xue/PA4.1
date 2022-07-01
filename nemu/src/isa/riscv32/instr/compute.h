@@ -1,17 +1,6 @@
 extern FILE* exc_fp;
 extern bool log_enable(); 
 
-#define etrace_write(...) IFDEF(CONFIG_TARGET_NATIVE_ELF, \
-        do {\
-        extern FILE* exc_fp; \
-        extern bool log_enable(); \
-         if (log_enable()) { \
- 		 fprintf(exc_fp, __VA_ARGS__); \
-  		 fflush(exc_fp);\
-         }\
-    }while (0) \
-)
-
 def_EHelper(lui) {
 	rtl_sext(s, &id_src1->imm, &id_src1->imm, 4);
     rtl_li(s, ddest, id_src1->imm);
@@ -47,9 +36,11 @@ def_EHelper(csrrs){
         *ddest = t;
 #ifdef CONFIG_TRACE
 		switch(cpu.mcause){
-			case 0xfffffff0: 
-				fprintf(exc_fp, "Get an EVENT_YIELD!\n");
-				fflush(exc_fp);
+			case 0xffffffff: 
+				if (log_enable()) {
+					fprintf(exc_fp, "Get an EVENT_YIELD!\n");
+					fflush(exc_fp);
+				}
 			default: etrace_write("Undefined mcause in etrace!\n"); break;
 		}
 #endif
