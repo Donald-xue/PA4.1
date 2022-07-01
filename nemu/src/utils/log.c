@@ -310,6 +310,13 @@ void init_exctrace(const char *exc_file) {
     Log("etrace is written to %s", exc_file ? exc_file : "stdout");
 }
 
+void exctrace(uint32_t cause){
+    switch(cause){
+            case 0xffffffff: etrace_write("Get an EVENT_YIELD!\n");  break;
+            default: etrace_write("Undefined mcause in etrace!\n"); break;
+        }
+}
+
 bool log_enable() {
   return MUXDEF(CONFIG_TRACE, (g_nr_guest_instr >= CONFIG_TRACE_START) &&
          (g_nr_guest_instr <= CONFIG_TRACE_END), false);

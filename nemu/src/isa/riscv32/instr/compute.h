@@ -1,3 +1,5 @@
+extern void exctrace(uint32_t cause);
+
 def_EHelper(lui) {
 	rtl_sext(s, &id_src1->imm, &id_src1->imm, 4);
     rtl_li(s, ddest, id_src1->imm);
@@ -23,14 +25,14 @@ def_EHelper(csrrw){
         *ddest = t;
     }
 }
-
+/*
 void exctrace(uint32_t cause){
 	switch(cause){
             case 0xffffffff: etrace_write("Get an EVENT_YIELD!\n");  break;
             default: etrace_write("Undefined mcause in etrace!\n"); break;
         }
 }
-
+*/
 def_EHelper(csrrs){
 	if(id_src2->imm == 834){
         unsigned int t = cpu.mcause;
