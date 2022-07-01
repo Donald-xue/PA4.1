@@ -32,9 +32,9 @@ def_EHelper(csrrs){
 //      printf("!!!!!!!!cpu.mcause = %x", cpu.mcause);
         *ddest = t;
 #ifdef CONFIG_TRACE
-		etrace_write("!!!!!!!!!!!!!!!!!!!!!!!!\n");
 		switch(cpu.mcause){
-			case 0xffffffff: etrace_write("Get an EVENT_YIELD!\n"); break;
+			case 0xffffffff: printf("!!!!!!!!!!!!!!!!!!!!!!\n");
+				etrace_write("Get an EVENT_YIELD!\n"); break;
 			default: etrace_write("Undefined mcause in etrace!\n"); break;
 		}
 #endif
