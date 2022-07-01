@@ -23,15 +23,13 @@ def_EHelper(csrrw){
         *ddest = t;
     }
 }
-/*
-#ifdef CONFIG_TRACE
+
 void exctrace(uint32_t cause){
 	switch(cause){
             case 0xffffffff: etrace_write("Get an EVENT_YIELD!\n");  break;
             default: etrace_write("Undefined mcause in etrace!\n"); break;
         }
 }
-#endif
 
 def_EHelper(csrrs){
 	if(id_src2->imm == 834){
@@ -41,11 +39,11 @@ def_EHelper(csrrs){
 //      printf("!!!!!!!!cpu.mcause = %x", cpu.mcause);
         *ddest = t;
 #ifdef CONFIG_TRACE
-		switch(cpu.mcause){
+/*		switch(cpu.mcause){
 			case 0xffffffff: etrace_write("Get an EVENT_YIELD!\n"); break;
 			default: etrace_write("Undefined mcause in etrace!\n"); break;
-		}
-//		exctrace(cpu.mcause);
+		}*/
+		exctrace(cpu.mcause);
 #endif
     }
 	if(id_src2->imm == 768){
@@ -61,7 +59,7 @@ def_EHelper(csrrs){
         *ddest = t;
     }
 }
-*/
+
 def_EHelper(xori){
 	rtl_xori(s, ddest, dsrc1, id_src2->imm);
 }
