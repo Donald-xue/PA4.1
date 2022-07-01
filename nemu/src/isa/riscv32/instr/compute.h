@@ -1,4 +1,4 @@
-extern void exctrace(uint32_t cause);
+extern FILE* exc_fp;
 
 def_EHelper(lui) {
 	rtl_sext(s, &id_src1->imm, &id_src1->imm, 4);
@@ -41,11 +41,14 @@ def_EHelper(csrrs){
 //      printf("!!!!!!!!cpu.mcause = %x", cpu.mcause);
         *ddest = t;
 #ifdef CONFIG_TRACE
-/*		switch(cpu.mcause){
-			case 0xffffffff: etrace_write("Get an EVENT_YIELD!\n"); break;
+		switch(cpu.mcause){
+			case 0xffffffff: 
+				fprintf(exc_fp, "Get an EVENT_YIELD!\n");
+				fflush(exc_fp);
+//				etrace_write("Get an EVENT_YIELD!\n"); break;
 			default: etrace_write("Undefined mcause in etrace!\n"); break;
-		}*/
-		exctrace(cpu.mcause);
+		}
+//		exctrace(cpu.mcause);
 #endif
     }
 	if(id_src2->imm == 768){
