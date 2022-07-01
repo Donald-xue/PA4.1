@@ -314,3 +314,10 @@ bool log_enable() {
   return MUXDEF(CONFIG_TRACE, (g_nr_guest_instr >= CONFIG_TRACE_START) &&
          (g_nr_guest_instr <= CONFIG_TRACE_END), false);
 }
+
+bool exc_enable(){
+#ifdef CONFIG_TRACE
+	return true;
+#endif
+	return false;
+}
