@@ -37,10 +37,7 @@ def_EHelper(csrrs){
 #ifdef CONFIG_TRACE
 		switch(cpu.mcause){
 			case 0xffffffff: 
-				if (log_enable()) {
-					fprintf(exc_fp, "Get an EVENT_YIELD!\n");
-					fflush(exc_fp);
-				}
+				etrace_write("Get an EVENT_YIELD!\n"); break;
 			default: etrace_write("Undefined mcause in etrace!\n"); break;
 		}
 #endif
