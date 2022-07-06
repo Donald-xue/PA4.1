@@ -146,8 +146,6 @@ char result[8388608] = {'\0'};
 
 char * functrace(vaddr_t dnpc, vaddr_t pc, char * str){
 	int flag = 0;
-	if(pc >= 0x83000000)
-		flag = 1;
 /*	  char *p = sym_data;
         int j = 0;
         for (j=0; j<100; j++)
@@ -219,9 +217,11 @@ char * functrace(vaddr_t dnpc, vaddr_t pc, char * str){
 			}*/
 		}
 	}
+	if(pc >= 0x83000000 || dnpc >= 0x83000000)
+		flag = 1;
 	if(flag == 0){
 		strcpy(str, "???");
-		printf("Here Not found func %s, pc = %x\n", str, dnpc);
+		printf("Not found func %s, pc = %x\n", str, dnpc);
 	}
 	return result;
 }
