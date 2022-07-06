@@ -18,7 +18,8 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   Elf_Ehdr ehdr;
   ramdisk_read(&ehdr, 0, sizeof(Elf_Ehdr));
   Elf_Ehdr *elf = &ehdr;
-  assert(*(uint32_t *)elf->e_ident == 0x7f454c46);
+  printf("魔数为: %d\n", *(uint32_t *)elf->e_ident);
+//  assert(*(uint32_t *)elf->e_ident == 0x7f454c46);
   Elf_Phdr phdr[ehdr.e_phnum];
   ramdisk_read(phdr, ehdr.e_ehsize, ehdr.e_phentsize);
   for(int i = 0; i < ehdr.e_phnum; i++){
