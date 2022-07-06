@@ -145,9 +145,9 @@ char func[256] = {'\0'};
 char result[8388608] = {'\0'};
 
 char * functrace(vaddr_t dnpc, vaddr_t pc, char * str){
-	if(pc >= 0x83000000)
-		return str;
 	int flag = 0;
+	if(pc >= 0x83000000)
+		flag = 1;
 /*	  char *p = sym_data;
         int j = 0;
         for (j=0; j<100; j++)
