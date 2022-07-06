@@ -221,7 +221,7 @@ char * functrace(vaddr_t dnpc, vaddr_t pc, char * str){
 	}
 	if(flag == 0){
 		strcpy(str, "???");
-		printf("Not found func %s, pc = %x\n", str, dnpc);
+		printf("Here Not found func %s, pc = %x\n", str, dnpc);
 	}
 	return result;
 }
