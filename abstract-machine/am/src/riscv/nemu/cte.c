@@ -9,7 +9,7 @@ Context* __am_irq_handle(Context *c) {
 		printf("gpr(%d) = %x\n", i, c->gpr[i]);
 	}
 */	
-//	printf("%x %x %x\n", c->mcause, c->mstatus, c->mepc);
+	printf("%x %x %x\n", c->mcause, c->mstatus, c->mepc);
   if (user_handler) {
     Event ev = {0};
     switch (c->mcause) {
