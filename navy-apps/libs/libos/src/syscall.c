@@ -58,7 +58,7 @@ void _exit(int status) {
 int _yield(){
 	yield();
 	_exit(SYS_yield);
-	return 0
+	return 0;
 }
 
 int _open(const char *path, int flags, mode_t mode) {
