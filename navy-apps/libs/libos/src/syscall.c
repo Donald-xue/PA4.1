@@ -55,9 +55,9 @@ void _exit(int status) {
   while (1);
 }
 
-int _yield(){
-//	yield();
-	_exit(SYS_yield);
+int sys_yield(){
+	yield();
+//	_exit(SYS_yield);
 	return 0;
 }
 
