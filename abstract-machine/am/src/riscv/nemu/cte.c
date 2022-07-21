@@ -40,7 +40,7 @@ Context* __am_irq_handle(Context *c) {
     c = user_handler(ev, c);
     assert(c != NULL);
   }
-  printf("Finished __am_irq_handle!\n");
+//  printf("Finished __am_irq_handle!\n");
   return c;
 }
 
