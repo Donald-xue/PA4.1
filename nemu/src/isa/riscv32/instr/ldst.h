@@ -32,7 +32,7 @@ def_EHelper(lhu) {
 //	printf("lhu src= %x\n", *dsrc1);
 	rtl_lm(s, ddest, dsrc1, id_src2->imm, 2);
 //	printf("lhu = %x\n", *ddest);
-	*ddest = *ddest & 0x0000ffff;
+//	*ddest = *ddest & 0x0000ffff;
 }
 
 def_EHelper(lbu) {                
@@ -43,7 +43,7 @@ def_EHelper(lbu) {
 //  printf("lbu src= %x\n", *dsrc1);
     rtl_lm(s, ddest, dsrc1, id_src2->imm, 1);
 //  printf("lbu = %x\n", *ddest);
-  *ddest = *ddest & 0x000000ff;
+//  *ddest = *ddest & 0x000000ff;
 }
 
 def_EHelper(lb) {
