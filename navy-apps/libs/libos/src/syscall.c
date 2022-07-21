@@ -54,12 +54,12 @@ void _exit(int status) {
   _syscall_(SYS_exit, status, 0, 0);
   while (1);
 }
-/*
+
 int _yield(){
 	yield();
 //	_exit(SYS_yield);
 	return 0;
-}*/
+}
 
 int _open(const char *path, int flags, mode_t mode) {
   _exit(SYS_open);
