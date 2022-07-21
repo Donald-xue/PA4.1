@@ -1,8 +1,9 @@
 #include <common.h>
 #include "syscall.h"
 
-int sys_yield(){
+int sys_yield(Context *c){
 	yield();
+	c->gpr[10] = 0;
 	return 0;
 }
 
@@ -12,7 +13,7 @@ void do_syscall(Context *c) {
 
   switch (a[0]) {
 	  case 0: break;
-	  case 1: sys_yield(); break;
+	  case 1: sys_yield(c); break;
       default: panic("Unhandled syscall ID = %d", a[0]);
   }
 }
