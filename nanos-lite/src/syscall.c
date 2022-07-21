@@ -3,7 +3,7 @@
 
 int sys_yield(Context *c){
 	yield();
-	c->gpr[10] = 0;
+	c->gpr[17] = 0;
 	return 0;
 }
 
