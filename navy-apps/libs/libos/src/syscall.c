@@ -56,7 +56,7 @@ void _exit(int status) {
 }
 
 int _yield(){
-	yield();
+//	yield();
 	_exit(SYS_yield);
 	return 0;
 }

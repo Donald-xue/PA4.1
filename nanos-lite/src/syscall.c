@@ -1,7 +1,10 @@
 #include <common.h>
 #include "syscall.h"
-
-extern int _yield();
+/*
+int sys_yield(){
+	_yield();
+	return 0;
+}*/
 
 void do_syscall(Context *c) {
   uintptr_t a[4];
