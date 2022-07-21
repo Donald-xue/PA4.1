@@ -1,9 +1,13 @@
 #include <common.h>
 
+extern void do_syscall(Context *c);
+
 static Context* do_event(Event e, Context* c) {
   switch (e.event) {
 	  case EVENT_YIELD: printf("Get an EVENT_YIELD!\n"); break;
-	  case EVENT_SYSCALL: printf("Get an EVENT_SYSCALL!\n"); break;
+	  case EVENT_SYSCALL: printf("Get an EVENT_SYSCALL!\n");
+						  do_syscall(c);
+						  break;
 	  default: panic("Unhandled event ID = %d", e.event);
   }
 
