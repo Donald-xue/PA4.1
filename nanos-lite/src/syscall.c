@@ -1,8 +1,6 @@
 #include <common.h>
 #include "syscall.h"
 
-extern int _yield();
-
 int sys_yield(Context *c){
 	yield();
 	c->gpr[10] = 0;
