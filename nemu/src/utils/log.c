@@ -15,6 +15,7 @@ FILE *mem_fp = NULL;
 FILE *dev_fp = NULL;
 FILE *exc_fp = NULL;
 FILE *ftrace_fp = NULL;
+FILE *s_fp = NULL;
 FILE *dest_fp = NULL;
 int fnum = 0;
 int elf64 = 0;
@@ -308,6 +309,16 @@ void init_exctrace(const char *exc_file) {
         exc_fp = fp;
     }
     Log("etrace is written to %s", exc_file ? exc_file : "stdout");
+}
+
+void init_strace(const char *s_file) {
+    s_fp = stdout;                               
+    if (s_file != NULL) {
+        FILE *fp = fopen(s_file, "w");
+        Assert(fp, "Can not open '%s'", s_file);
+        s_fp = fp;
+    }
+    Log("strace is written to %s", s_file ? s_file : "stdout");
 }
 
 bool log_enable() {

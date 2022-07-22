@@ -8,6 +8,7 @@ void init_devtrace(const char *dev_file);
 void init_memtrace(const char *mem_file);
 void init_ftrace(const char *ftrace_file, const char *dest_file);
 void init_exctrace(const char *exc_file);
+void init_strace(const char *s_file);
 void init_mem();
 void init_difftest(char *ref_so_file, long img_size, int port);
 void init_device();
@@ -53,6 +54,7 @@ static long load_img() {
   mtrace_write("The image is %s, size = %ld\n", img_file, size);
   dtrace_write("The image is %s, size = %ld\n", img_file, size);
   etrace_write("The image is %s, size = %ld\n", img_file, size);
+  strace_write("The image is %s, size = %ld\n", img_file, size);
 
   fseek(fp, 0, SEEK_SET);
   int ret = fread(guest_to_host(RESET_VECTOR), size, 1, fp);
@@ -166,8 +168,17 @@ void init_monitor(int argc, char *argv[]) {
   memset(etrace_file, '\0', 12);
   char etracename[16] = "etrace.txt";
   strcat(etracebuf, etracename);
-//  printf("%s\n", ring);
   init_exctrace(etracebuf);
+
+  char stracebuf[128] = {'\0'};
+  strcpy(stracebuf, log);
+  int stracelen = strlen(stracebuf);
+  char * strace_file = stracebuf;
+  strace_file = strace_file + (char) stracelen - (char)12;
+  memset(strace_file, '\0', 12);
+  char stracename[16] = "strace.txt";
+  strcat(stracebuf, stracename);
+  init_strace(stracebuf);
 #endif
 
   /* Initialize memory. */
