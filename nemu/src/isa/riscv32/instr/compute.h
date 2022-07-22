@@ -25,6 +25,12 @@ def_EHelper(csrrw){
 //      printf("!!!!!!!!cpu.mstatus = %x", cpu.mstatus);
         *ddest = t;
     }
+	if(id_src2->imm == 834){
+        unsigned int t = cpu.mcause;
+        cpu.mcause = *dsrc1;
+//      printf("!!!!!!!!cpu.mstatus = %x", cpu.mstatus);
+        *ddest = t;
+    }
 }
 
 def_EHelper(csrrs){
@@ -40,6 +46,12 @@ def_EHelper(csrrs){
 			default: etrace_write("Undefined mcause in etrace!\n"); break;
 		}
 #endif
+    }
+	if(id_src2->imm == 773){
+        unsigned int t = cpu.mtvec;
+        cpu.mtvec = t | *dsrc1;
+//      printf("!!!!!!!!cpu.mstatus = %x", cpu.mstatus);
+        *ddest = t;
     }
 	if(id_src2->imm == 768){
         unsigned int t = cpu.mstatus;
