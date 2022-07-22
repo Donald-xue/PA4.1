@@ -15,7 +15,7 @@ void do_syscall(Context *c) {
   switch (a[0]) {
 	  case 0: printf("Get an SYS_exit!\n");
 		  halt(c->GPRx); break;
-	  case 1: printf("Get an SYS_exit!\n");
+	  case 1: printf("Get an SYS_yield!\n");
 			  sys_yield(c);  break;
       default: panic("Unhandled syscall ID = %d", a[0]);
   }
