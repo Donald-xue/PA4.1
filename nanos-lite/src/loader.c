@@ -34,11 +34,11 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 //  printf("EXPECT_TYPE = %d, ehdr.e_machine = %d\n", EXPECT_TYPE, ehdr.e_machine);
   assert(EXPECT_TYPE == ehdr.e_machine);
   Elf_Phdr phdr[ehdr.e_phnum];
-  ramdisk_read(phdr, ehdr.e_ehsize, ehdr.e_phentsize);
+  ramdisk_read(phdr, ehdr.e_ehsize, sizeof(Elf_Phdr)*ehdr.e_phnum);
    for(int i = 0; i < ehdr.e_phnum; i++){
 	  if( phdr[i].p_type == PT_LOAD ){
 //		  printf("第%d个信息!!\n", i);
-		  ramdisk_read((void *)phdr[i].p_vaddr, phdr[i].p_offset, phdr[i].p_filesz);
+		  ramdisk_read((void *)phdr[i].p_vaddr, phdr[i].p_offset, phdr[i].p_memsz);
 		  memset((void *)(phdr[i].p_vaddr+phdr[i].p_filesz), 0, phdr[i].p_memsz-phdr[i].p_filesz);
  	  }
   }
