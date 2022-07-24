@@ -21,7 +21,7 @@ def_EHelper(csrrw){
 //      printf("!!!!!!!!cpu.mstatus = %x", cpu.mstatus);
         *ddest = t;
     }
-	if(id_src2->imm == 833){\
+	if(id_src2->imm == 833){
 		printf("In csrrw mepc!!!\n");
         unsigned int t = cpu.mepc;
         cpu.mepc = *dsrc1;
