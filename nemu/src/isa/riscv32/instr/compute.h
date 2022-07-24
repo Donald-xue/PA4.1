@@ -22,7 +22,7 @@ def_EHelper(csrrw){
         *ddest = t;
     }
 	if(id_src2->imm == 833){
-		printf("In csrrw mepc!!!\n");
+//		printf("In csrrw mepc!!!\n");
         unsigned int t = cpu.mepc;
         cpu.mepc = *dsrc1;
 //      printf("!!!!!!!!cpu.mstatus = %x", cpu.mstatus);
@@ -37,7 +37,7 @@ def_EHelper(csrrw){
 }
 
 def_EHelper(csrrs){
-	printf("In csrrs!!!\n");
+//	printf("In csrrs!!!\n");
 	if(id_src2->imm == 834){
         unsigned int t = cpu.mcause;
 //		printf("!!!!!!!!cpu.mcause = %x, dsrc1 = %x\n", cpu.mcause, *dsrc1);
@@ -164,7 +164,7 @@ def_EHelper(divu) {
 	if(*dsrc2 != 0)
 		rtl_divu_q(s, ddest, dsrc1, dsrc2);
 }
-
+/*
 def_EHelper(li) {
 	int32_t dm = (int32_t) id_src1->imm >> 12;
     dm <<= 32 - 12;
@@ -172,7 +172,7 @@ def_EHelper(li) {
     id_src1->imm = dm;
 	rtl_li(s, ddest, id_src1->imm);
 }
-
+*/
 def_EHelper(sltu) {
 	if((uint32_t) *dsrc1 < (uint32_t) *dsrc2){
 		*ddest = 1;
