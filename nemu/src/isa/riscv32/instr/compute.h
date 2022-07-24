@@ -8,6 +8,7 @@ def_EHelper(lui) {
 }
 
 def_EHelper(csrrw){
+	printf("In csrrw!!!\n");
 	if(id_src2->imm == 773){
 		unsigned int t = cpu.mtvec;
 		cpu.mtvec = *dsrc1;
@@ -35,6 +36,7 @@ def_EHelper(csrrw){
 }
 
 def_EHelper(csrrs){
+	printf("In csrrs!!!\n");
 	if(id_src2->imm == 834){
         unsigned int t = cpu.mcause;
 //		printf("!!!!!!!!cpu.mcause = %x, dsrc1 = %x\n", cpu.mcause, *dsrc1);
