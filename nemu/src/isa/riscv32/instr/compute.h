@@ -220,8 +220,8 @@ def_EHelper(srai) {
 
 def_EHelper(addi) {
 	int32_t dm = (int32_t) id_src2->imm;
-    dm <<= 32 - 12;
-    dm >>= 32 - 12;
+    dm <<= 20;
+    dm >>= 20;
     id_src2->imm = dm;
 //	rtl_sext(s, &id_src2->imm, &id_src2->imm, 4);
 	rtl_addi(s, ddest, dsrc1, id_src2->imm);
