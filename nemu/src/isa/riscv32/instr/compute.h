@@ -8,7 +8,7 @@ def_EHelper(lui) {
 }
 
 def_EHelper(csrrw){
-	printf("In csrrw!!!\n");
+//	printf("In csrrw!!!\n");
 	if(id_src2->imm == 773){
 		unsigned int t = cpu.mtvec;
 		cpu.mtvec = *dsrc1;
@@ -21,11 +21,12 @@ def_EHelper(csrrw){
 //      printf("!!!!!!!!cpu.mstatus = %x", cpu.mstatus);
         *ddest = t;
     }
-	if(id_src2->imm == 833){
+	if(id_src2->imm == 833){\
+		printf("In csrrw mepc!!!\n");
         unsigned int t = cpu.mepc;
         cpu.mepc = *dsrc1;
 //      printf("!!!!!!!!cpu.mstatus = %x", cpu.mstatus);
-        *ddest = t;
+       	*ddest = t;
     }
 	if(id_src2->imm == 834){
         unsigned int t = cpu.mcause;
