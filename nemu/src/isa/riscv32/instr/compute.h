@@ -164,7 +164,7 @@ def_EHelper(divu) {
 	if(*dsrc2 != 0)
 		rtl_divu_q(s, ddest, dsrc1, dsrc2);
 }
-/*
+
 def_EHelper(li) {
 	int32_t dm = (int32_t) id_src1->imm >> 12;
     dm <<= 32 - 12;
@@ -172,7 +172,7 @@ def_EHelper(li) {
     id_src1->imm = dm;
 	rtl_li(s, ddest, id_src1->imm);
 }
-*/
+
 def_EHelper(sltu) {
 	if((uint32_t) *dsrc1 < (uint32_t) *dsrc2){
 		*ddest = 1;
