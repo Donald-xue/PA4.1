@@ -2,7 +2,8 @@ extern FILE* exc_fp;
 extern bool log_enable(); 
 
 def_EHelper(lui) {
-	rtl_sext(s, &id_src1->imm, &id_src1->imm, 4);
+	id_src1->imm = id_src1->imm & 0xfffff000;
+//	rtl_sext(s, &id_src1->imm, &id_src1->imm, 4);
     rtl_li(s, ddest, id_src1->imm);
 }
 
