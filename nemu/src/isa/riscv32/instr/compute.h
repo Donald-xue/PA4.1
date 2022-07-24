@@ -223,7 +223,7 @@ def_EHelper(srai) {
 }
 
 def_EHelper(addi) {
-	printf("addi!!!\n");
+//	printf("addi!!!\n");
 	int32_t dm = (int32_t) id_src2->imm;
     dm <<= 20;
     dm >>= 20;
