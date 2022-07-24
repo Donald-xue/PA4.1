@@ -223,6 +223,6 @@ def_EHelper(addi) {
     dm <<= 32 - 12;
     dm >>= 32 - 12;
     id_src2->imm = dm;
-	rtl_sext(s, &id_src2->imm, &id_src2->imm, 4);
+//	rtl_sext(s, &id_src2->imm, &id_src2->imm, 4);
 	rtl_addi(s, ddest, dsrc1, id_src2->imm);
 }
