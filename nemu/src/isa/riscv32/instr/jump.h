@@ -258,9 +258,9 @@ def_EHelper(jal) {
 
 def_EHelper(jalr) {
 //	printf("!!jalr ddest = %x\n", *ddest);
-	if(*ddest != 0){
+//	if(*ddest != 0){
 		rtl_addi(s, ddest, &s->pc, 4);
-	}
+//	}
 	int32_t dm = (int32_t) id_src2->imm;
     dm <<= 32 - 12;
     dm >>= 32 - 12;
