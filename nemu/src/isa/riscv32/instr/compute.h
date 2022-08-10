@@ -229,5 +229,6 @@ def_EHelper(addi) {
     dm >>= 20;
     id_src2->imm = dm;
 //	rtl_sext(s, &id_src2->imm, &id_src2->imm, 4);
+    printf("src1 = %x, imm = %x\n", *dsrc1, id_src2->imm);
 	rtl_addi(s, ddest, dsrc1, id_src2->imm);
 }
