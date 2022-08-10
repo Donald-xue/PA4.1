@@ -265,6 +265,7 @@ def_EHelper(jalr) {
     dm <<= 32 - 12;
     dm >>= 32 - 12;
     id_src2->imm = dm;
+	printf("ra = %x, offset = %x\n", *dsrc1, id_src2->imm);
 	rtl_sext(s, &id_src2->imm, &id_src2->imm, 4);
 	rtl_addi(s, &s->dnpc, dsrc1, id_src2->imm);
 	s->dnpc = s->dnpc & 0xfffffffe;
