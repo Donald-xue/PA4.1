@@ -153,6 +153,7 @@ static void fetch_decode_exec_updatepc(Decode *s) {
   fetch_decode(s, cpu.pc);
   s->EHelper(s);
   cpu.pc = s->dnpc;
+  printf("pc is %x\n",cpu.pc);
 }
 
 static void statistic() {
