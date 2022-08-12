@@ -16,7 +16,7 @@ def_EHelper(ecall) {
 
 def_EHelper(mret) {
 //	if(cpu.mcause == 0xffffffff){
-		s->dnpc = cpu.mepc;
+		s->dnpc = cpu.mepc + 4;
 //	}
 }
 
