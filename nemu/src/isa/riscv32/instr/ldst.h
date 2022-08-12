@@ -3,7 +3,7 @@ def_EHelper(lw) {
     dm <<= 32 - 12;
     dm >>= 32 - 12;
     id_src2->imm = dm;
-	printf("lw src = %x\n", *dsrc1);
+//	printf("lw src = %x\n", *dsrc1);
   rtl_lm(s, ddest, dsrc1, id_src2->imm, 4);
 //  printf("lw = %x\n", *ddest);
 }
