@@ -68,9 +68,19 @@ int _open(const char *path, int flags, mode_t mode) {
 }
 
 int _write(int fd, void *buf, size_t count) {
-  _syscall_(SYS_write, fd, buf, count);
-	_exit(SYS_write);
-  return count;
+	if(fd == 1 || fd == 2){
+        for(int i = 0; i < count; i++){
+            putch(*(char*)buf);
+            (char *)buf++;
+        }
+        c->GPRx = count;
+        return count;
+    }
+    c->GPRx = -1;
+    return -1;
+//  _syscall_(SYS_write, fd, buf, count);
+//	_exit(SYS_write);
+//  return count;
 }
 
 void *_sbrk(intptr_t increment) {
