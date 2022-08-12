@@ -33,7 +33,7 @@ void do_syscall(Context *c) {
 		  halt(c->GPRx); break;
 	  case 1: printf("Get an SYS_yield!\n");
 			  sys_yield(c);  break;
-	  case 5: printf("Get an SYS_write!\n");
+	  case 4: printf("Get an SYS_write!\n");
 			  sys_write(a[1], (void *)a[2], a[3], c);
 			  break;
       default: panic("Unhandled syscall ID = %d", a[0]);
