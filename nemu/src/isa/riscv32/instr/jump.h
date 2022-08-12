@@ -259,9 +259,9 @@ def_EHelper(jal) {
 def_EHelper(jalr) {
 //	printf("!!jalr ddest = %x\n", *ddest);
 //	if(*ddest != 0){
-		rtl_addi(s, ddest, &s->pc, 4);
+//		rtl_addi(s, ddest, &s->pc, 4);
 //	}
-  //  uint32_t t = s->pc + 4;
+    uint32_t t = s->pc + 4;
 	int32_t dm = (int32_t) id_src2->imm;
     dm <<= 32 - 12;
     dm >>= 32 - 12;
@@ -270,7 +270,7 @@ def_EHelper(jalr) {
 	rtl_sext(s, &id_src2->imm, &id_src2->imm, 4);
 	rtl_addi(s, &s->dnpc, dsrc1, id_src2->imm);
 	s->dnpc = s->dnpc & 0xfffffffe;
-//	rtl_addi(s, ddest, &t, 0);
+	rtl_addi(s, ddest, &t, 0);
 //	printf("!!jalr dsrc1 = %x\n", s->pc);
 //	if(*ddest == 0 && id_src2->imm == 0 && *dsrc1 == gpr(1)){
 #ifdef CONFIG_TRACE
