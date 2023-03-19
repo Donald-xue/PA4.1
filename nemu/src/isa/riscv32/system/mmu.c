@@ -1,7 +1,33 @@
 #include <isa.h>
 #include <memory/paddr.h>
 #include <memory/vaddr.h>
+#include <isa-def.h>
+
+#define PGDIR_MASK 0xffc00000
+#define PGTAB_MASK 0x003ff000
+#define PTE_MASK 0xfffffc00
+#define OFFSET_MASK 0x00000fff
+
+#define PTE_V 0x01
+#define PTE_A 0x40
+#define PTE_D 0x80
 
 paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
-  return MEM_RET_FAIL;
+  paddr_t page_dir_entry = (cpu.satp << 12) + ((vaddr & PGDIR_MASK) >> 20);
+  uintptr_t page_dir = paddr_read(page_dir_entry, 4);
+  Assert(page_dir & PTE_V, "page_dir not valid, vaddr: %#x", vaddr);
+
+  paddr_t page_table_entry = ((page_dir & PTE_MASK) << 2) + ((vaddr & PGTAB_MASK) >> 10);
+  uintptr_t page_table = paddr_read(page_table_entry, 4);
+  Assert(page_dir & PTE_V, "page_table not valid, vaddr: %#x", vaddr);
+
+  if (type == 0){//读
+    paddr_write(page_table_entry, 4, page_table | PTE_A);
+  }else if (type == 1){//写
+    paddr_write(page_table_entry, 4, page_table | PTE_D);
+  }
+  paddr_t paddr = ((page_table_entry & PTE_MASK) << 2) +(vaddr & OFFSET_MASK);
+  Assert(page_dir & PTE_V, "Paddr:%#x not equal to vaddr: %#x", paddr, vaddr);  
+
+  return paddr;
 }

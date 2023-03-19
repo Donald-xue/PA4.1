@@ -1,3 +1,5 @@
+NAVY_HOME = $(NEMU_HOME)/../navy-apps
+
 ifeq ($(ISA), native)
 build/native.so: src/native.cpp
 	mkdir -p build/

@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 #ifndef _FIXEDPTC_H_
 #define _FIXEDPTC_H_
 
@@ -105,7 +107,7 @@ typedef	__uint128_t fixedptud;
 #define FIXEDPT_FBITS	(FIXEDPT_BITS - FIXEDPT_WBITS)
 #define FIXEDPT_FMASK	(((fixedpt)1 << FIXEDPT_FBITS) - 1)
 
-#define fixedpt_rconst(R) ((fixedpt)((R) * FIXEDPT_ONE + ((R) >= 0 ? 0.5 : -0.5)))
+#define fixedpt_rconst(R) ((fixedpt)((R) * FIXEDPT_ONE + ((R) >= 0 ? 0.5 : -0.5)))  //turn float to fixed
 #define fixedpt_fromint(I) ((fixedptd)(I) << FIXEDPT_FBITS)
 #define fixedpt_toint(F) ((F) >> FIXEDPT_FBITS)
 #define fixedpt_add(A,B) ((A) + (B))
@@ -125,37 +127,62 @@ typedef	__uint128_t fixedptud;
  * Putting them only in macros will effectively make them optional. */
 #define fixedpt_tofloat(T) ((float) ((T)*((float)(1)/(float)(1L << FIXEDPT_FBITS))))
 
+#define TODO() printf("please implement me")
+
 /* Multiplies a fixedpt number with an integer, returns the result. */
 static inline fixedpt fixedpt_muli(fixedpt A, int B) {
-	return 0;
+	fixedpt b = fixedpt_fromint(B);
+	return ((A)*(b) >> FIXEDPT_FBITS);
 }
 
 /* Divides a fixedpt number with an integer, returns the result. */
 static inline fixedpt fixedpt_divi(fixedpt A, int B) {
-	return 0;
+	fixedpt b = fixedpt_fromint(B);
+	A = A << 8;
+	return ((A)/(b));
 }
 
 /* Multiplies two fixedpt numbers, returns the result. */
 static inline fixedpt fixedpt_mul(fixedpt A, fixedpt B) {
-	return 0;
+	return ((A)*(B) >> FIXEDPT_FBITS);
 }
 
 
 /* Divides two fixedpt numbers, returns the result. */
 static inline fixedpt fixedpt_div(fixedpt A, fixedpt B) {
-	return 0;
+	A = A << 8;
+	return ((A)/(B));
 }
 
 static inline fixedpt fixedpt_abs(fixedpt A) {
-	return 0;
+	if( (A & 0x80000000) ) {
+		fixedpt abs = ~A;
+		++abs;
+		return abs;
+	}
+	return A;
 }
 
 static inline fixedpt fixedpt_floor(fixedpt A) {
-	return 0;
+	if( (A & 0x80000000) ) {
+		fixedpt floor = (A & 0xffffff00);
+		return floor;
+	} else {
+		fixedpt floor = (A & 0xffffff00);
+		return floor;
+	}
 }
 
 static inline fixedpt fixedpt_ceil(fixedpt A) {
-	return 0;
+	if( (A & 0x80000000) ) {
+		fixedpt ceil = (A & 0xffffff00);
+		ceil += 0x100;
+		return ceil;
+	} else {
+		fixedpt ceil = (A & 0xffffff00);
+		ceil += 0x100;
+		return ceil;
+	}
 }
 
 /*
@@ -173,6 +200,240 @@ static inline fixedpt fixedpt_ceil(fixedpt A) {
  * specified precisions.
  */
 void fixedpt_str(fixedpt A, char *str, int max_dec);
+/*{
+	int integer = ((A & 0x7fffff00) >> 8);
+	int decimal = (A & 0x000000ff);
+	char * p = str;
+	if( !(A & 0x80000000) ) {
+		int bit1 = integer / 1000000;
+		integer = integer % 1000000;
+		int bit2 = integer / 100000;
+		integer = integer % 100000;
+		int bit3 = integer / 10000;
+		integer = integer % 10000;
+		int bit4 = integer / 1000;
+		integer = integer % 1000;
+		int bit5 = integer / 100;
+		integer = integer % 100;
+		int bit6 = integer / 10;
+		integer = integer % 10;
+		int bit7 = integer;
+		int headzero = 1;
+		if(bit1 == 0 && headzero == 1) {
+		} else {
+			*p = '0' + bit1;
+			headzero = 0;
+			++p;
+		}
+		if(bit2 == 0 && headzero == 1) {
+		} else {
+			*p = '0' + bit2;
+			headzero = 0;
+			++p;
+		}
+		if(bit3 == 0 && headzero == 1) {
+		} else {
+			*p = '0' + bit3;
+			headzero = 0;
+			++p;
+		}
+		if(bit4 == 0 && headzero == 1) {
+		} else {
+			*p = '0' + bit4;
+			headzero = 0;
+			++p;
+		}
+		if(bit5 == 0 && headzero == 1) {
+		} else {
+			*p = '0' + bit5;
+			headzero = 0;
+			++p;
+		}
+		if(bit6 == 0 && headzero == 1) {
+		} else {
+			*p = '0' + bit6;
+			headzero = 0;
+			++p;
+		}
+		if(bit7 == 0 && headzero == 1) {
+		} else {
+			*p = '0' + bit7;
+			headzero = 0;
+			++p;
+		}
+	} else if ( (A & 0x80000000) ) {
+		integer = ~integer;
+        integer = integer & 0x007fffff;
+		*p = '-';
+		p++;
+		int bit1 = integer / 1000000;
+		integer = integer % 1000000;
+		int bit2 = integer / 100000;
+		integer = integer % 100000;
+		int bit3 = integer / 10000;
+		integer = integer % 10000;
+		int bit4 = integer / 1000;
+		integer = integer % 1000;
+		int bit5 = integer / 100;
+		integer = integer % 100;
+		int bit6 = integer / 10;
+		integer = integer % 10;
+		int bit7 = integer;
+		int headzero = 1;
+		if(bit1 == 0 && headzero == 1) {
+		} else {
+			*p = '0' + bit1;
+			headzero = 0;
+			++p;
+		}
+		if(bit2 == 0 && headzero == 1) {
+		} else {
+			*p = '0' + bit2;
+			headzero = 0;
+			++p;
+		}
+		if(bit3 == 0 && headzero == 1) {
+		} else {
+			*p = '0' + bit3;
+			headzero = 0;
+			++p;
+		}
+		if(bit4 == 0 && headzero == 1) {
+		} else {
+			*p = '0' + bit4;
+			headzero = 0;
+			++p;
+		}
+		if(bit5 == 0 && headzero == 1) {
+		} else {
+			*p = '0' + bit5;
+			headzero = 0;
+			++p;
+		}
+		if(bit6 == 0 && headzero == 1) {
+		} else {
+			*p = '0' + bit6;
+			headzero = 0;
+			++p;
+		}
+		if(bit7 == 0 && headzero == 1) {
+		} else {
+			*p = '0' + bit7;
+			headzero = 0;
+			++p;
+		}
+	} else {
+		printf("Shouoldn't reach here!\n");
+	}
+	*p = '.';
+	++p;
+
+	if(max_dec == -1) {
+		if( (A & 0x80000000) ) {
+			decimal = ~decimal;
+            ++decimal;
+			decimal = decimal & 0x000000ff;
+			decimal *= 100;
+			int cin = decimal * 10;
+			if( ((cin / 256) % 10) >= 5 ) {
+				decimal /= 256;
+				++decimal;
+			} else {
+				decimal /= 256;
+			}
+			int bit1 = decimal / 10;
+			decimal = decimal % 10;
+			int bit2 = decimal;
+			*p = '0' + bit1;
+			++p;
+			*p = '0' + bit2;
+			++p;
+		} else if ( !(A & 0x80000000) ) {
+			decimal *= 100;
+			int cin = decimal * 10;
+			if( ( (cin / 256) % 10) >= 5 ) {
+				decimal /= 256;
+				++decimal;
+			} else {
+				decimal /= 256;
+			}
+			int bit1 = decimal / 10;
+			decimal = decimal % 10;
+			int bit2 = decimal;
+			*p = '0' + bit1;
+			++p;
+			*p = '0' + bit2;
+			++p;
+		} else {
+			printf("Shouoldn't reach here!\n");
+		}
+	} else if (max_dec == -2) {
+		if( (A & 0x80000000) ) {
+			decimal = ~decimal;
+            ++decimal;
+			decimal = decimal & 0x000000ff;
+			decimal *= 10000000;
+			decimal /= 256;
+			int bit1 = decimal / 1000000;
+			decimal = decimal % 1000000;
+			int bit2 = decimal / 100000;
+			decimal = decimal % 100000;
+			int bit3 = decimal / 10000;
+			decimal = decimal % 10000;
+			int bit4 = decimal / 1000;
+			decimal = decimal % 1000;
+			int bit5 = decimal / 100;
+			decimal = decimal % 100;
+			int bit6 = decimal / 10;
+			decimal = decimal % 10;
+			int bit7 = decimal ;
+			*p = '0' + bit1;
+			++p;
+			*p = '0' + bit2;
+			++p;
+			*p = '0' + bit3;
+			++p;
+			*p = '0' + bit4;
+			++p;
+			*p = '0' + bit5;
+			++p;
+			*p = '0' + bit6;
+			++p;
+			*p = '0' + bit7;
+			++p;
+		} else if ( !(A & 0x80000000) ) {
+			decimal *= 10000000;
+			decimal /= 256;
+			int bit1 = decimal / 1000000;
+			decimal = decimal % 1000000;
+			int bit2 = decimal / 100000;
+			decimal = decimal % 100000;
+			int bit3 = decimal / 10000;
+			decimal = decimal % 10000;
+			int bit4 = decimal / 1000;
+			decimal = decimal % 1000;
+			int bit5 = decimal / 100;
+			decimal = decimal % 100;
+			int bit6 = decimal / 10;
+			decimal = decimal % 10;
+			int bit7 = decimal ;
+			*p = '0' + bit1;
+			++p;
+			*p = '0' + bit2;
+			++p;
+			*p = '0' + bit3;
+			++p;
+			*p = '0' + bit4;
+			++p;
+			*p = '0' + bit5;
+			++p;
+			*p = '0' + bit6;
+			++p;
+			*p = '0' + bit7;
+			++p;
+		}
+	}
+}*/
 
 /* Converts the given fixedpt number into a string, using a static
  * (non-threadsafe) string buffer */
@@ -186,11 +447,53 @@ static inline char* fixedpt_cstr(const fixedpt A, const int max_dec) {
 
 /* Returns the square root of the given number, or -1 in case of error */
 fixedpt fixedpt_sqrt(fixedpt A);
+/* {
+	if( (A & 0x80000000) ) {
+		return 0x80000100;
+	}
+	double a = (double)A;
+    a /= 256;
+    double left = 0;
+	double right = (a/2)+1;
+	double result = 0;
+    double middle;
+	while(!(result - a <= 0.001 && result - a >= -0.001)) {
+		middle = (left + right)/2;
+		result = middle * middle;
+		if ( result < a ) {
+			left = middle;
+		} else {
+			right = middle;
+		}
+	}
+	middle *= 256;
+    fixedpt sqrt = (fixedpt) middle;
+	return sqrt;
+}*/
 
 
 /* Returns the sine of the given fixedpt number. 
  * Note: the loss of precision is extraordinary! */
 fixedpt fixedpt_sin(fixedpt fp);
+/* {
+	int i = 1, negation = 1; //取反
+	double sum = 100;
+	double num = (double) fp;
+    double index = num/256; //指数
+	double Factorial = 1; //阶乘
+	double TaylorExpansion = num/256; //泰勒展开式求和
+	while( sum > 0.001 || sum < -0.001) {
+		Factorial = Factorial * (i + 1) * (i + 2); //求阶乘
+		index *= (num/256) * (num/256); //求num2的次方
+		negation = -negation; //每次循环取反
+		sum = index / Factorial * negation;
+		TaylorExpansion += sum;
+        i += 2;
+	}
+	TaylorExpansion *= 256;
+    fixedpt taylor = (fixedpt)TaylorExpansion;
+	return taylor;
+}*/
 
 
 /* Returns the cosine of the given fixedpt number */
@@ -207,10 +510,41 @@ static inline fixedpt fixedpt_tan(fixedpt A) {
 
 /* Returns the value exp(x), i.e. e^x of the given fixedpt number. */
 fixedpt fixedpt_exp(fixedpt fp);
+/* {
+	double value = (double)fp;
+	double exp = value / 256;
+	exp = 1 + exp/512;
+    exp *= exp;       exp *= exp;       exp *= exp;       exp *= exp;
+    exp *= exp;       exp *= exp;       exp *= exp;       exp *= exp;
+    exp *= exp;
+	exp *= 256;
+	fixedpt result = (fixedpt)exp;
+	return result;
+}*/
 
 
 /* Returns the natural logarithm of the given fixedpt number. */
-fixedpt fixedpt_ln(fixedpt x);
+fixedpt fixedpt_ln(fixedpt t);
+/* {
+	double value = (double)t;
+	double a = value / 256;
+	int N = 10;//我们取了前10+1项来估算
+    int k,nk;
+    double x,xx,y;
+    x = (a-1)/(a+1);
+    xx = x*x;
+    nk = 2*N+1;
+    y = 1.0/nk;
+    for(k=N;k>0;k--)
+    {
+      nk = nk - 2;
+      y = 1.0/nk+xx*y;
+    }
+    double b = 2.0*x*y;
+	b *= 256;
+	fixedpt result = (fixedpt)b;
+	return result;
+}*/
 
 
 /* Returns the logarithm of the given base of the given fixedpt number */

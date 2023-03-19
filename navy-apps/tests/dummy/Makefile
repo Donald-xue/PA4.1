@@ -1,3 +1,6 @@
 NAME = dummy
-SRCS = dummy.c
+SRCS = dummy
+
+NAVY_HOME = $(NEMU_HOME)/../navy-apps
+
 include $(NAVY_HOME)/Makefile

@@ -2,8 +2,10 @@
 #include <stdarg.h>
 #include <unistd.h>
 #include <SDL.h>
+#include <string.h>
 
 char handle_key(SDL_Event *ev);
+void extern_app_run(const char *app_path);
 
 static void sh_printf(const char *format, ...) {
   static char buf[256] = {};
@@ -23,6 +25,31 @@ static void sh_prompt() {
 }
 
 static void sh_handle_cmd(const char *cmd) {
+  char buf[64];
+  strcpy (buf, cmd);
+//  buf[strlen(buf) - 1] = '\0';//把'\n'搞掉
+  char *argv[16];
+  char split[2] = " ";
+  char *token;
+  int argc;
+  
+  token = strtok(buf, split);
+
+//  printf("Builtin-sh token argv[%d] = %s", argc+1, token);
+//  term->write(token, 10);
+
+  while (token) {
+  //  term->write(token, 10);
+    printf("Builtin-sh token argv[%d] = %s\n", argc+1, token);
+    argv[argc] = token;
+    token = strtok(NULL, split);
+    argc++;
+  }
+  argv[argc] = NULL;
+
+//  printf("%s\n", cmd);
+  term->write(cmd, 10);
+  execvp(argv[0], argv);
 }
 
 void builtin_sh_run() {
@@ -35,6 +62,7 @@ void builtin_sh_run() {
       if (ev.type == SDL_KEYUP || ev.type == SDL_KEYDOWN) {
         const char *res = term->keypress(handle_key(&ev));
         if (res) {
+          printf("builtin_sh_run filename %s\n", res);
           sh_handle_cmd(res);
           sh_prompt();
         }

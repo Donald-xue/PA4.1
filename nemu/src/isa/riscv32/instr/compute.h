@@ -8,7 +8,7 @@ def_EHelper(lui) {
 }
 
 def_EHelper(csrrw){
-//	printf("In csrrw!!!\n");
+//	printf("In csrrw id_src2->imm: %x!\n", id_src2->imm);
 	if(id_src2->imm == 773){
 		unsigned int t = cpu.mtvec;
 		cpu.mtvec = *dsrc1;
@@ -21,7 +21,19 @@ def_EHelper(csrrw){
 //      printf("!!!!!!!!cpu.mstatus = %x", cpu.mstatus);
         *ddest = t;
     }
+	if(id_src2->imm == 300){
+        unsigned int t = cpu.mstatus;
+        cpu.mstatus = *dsrc1;
+//      printf("!!!!!!!!cpu.mstatus = %x", cpu.mstatus);
+        *ddest = t;
+    }
 	if(id_src2->imm == 833){
+//		printf("In csrrw mepc!!!\n");
+        unsigned int t = cpu.mepc;
+        cpu.mepc = *dsrc1;
+//      printf("!!!!!!!!cpu.mstatus = %x", cpu.mstatus);
+       	*ddest = t;
+    }if(id_src2->imm == 341){
 //		printf("In csrrw mepc!!!\n");
         unsigned int t = cpu.mepc;
         cpu.mepc = *dsrc1;
@@ -37,6 +49,7 @@ def_EHelper(csrrw){
 }
 
 def_EHelper(csrrs){
+	difftest_skip_ref();
 //	printf("In csrrs!!!\n");
 	if(id_src2->imm == 834){
         unsigned int t = cpu.mcause;
@@ -66,6 +79,18 @@ def_EHelper(csrrs){
 	if(id_src2->imm == 833){
         unsigned int t = cpu.mepc;
         cpu.mepc = t | *dsrc1;
+//      printf("!!!!!!!!cpu.mepc = %x", cpu.mepc);
+        *ddest = t;
+    }
+	if(id_src2->imm == 341){
+        unsigned int t = cpu.mepc;
+        cpu.mepc = t | *dsrc1;
+//      printf("!!!!!!!!cpu.mepc = %x", cpu.mepc);
+        *ddest = t;
+    }
+	if(id_src2->imm == 300){
+        unsigned int t = cpu.mstatus;
+        cpu.mstatus = t | *dsrc1;
 //      printf("!!!!!!!!cpu.mepc = %x", cpu.mepc);
         *ddest = t;
     }
@@ -110,8 +135,8 @@ def_EHelper(xor){
 
 def_EHelper(andi){
 	int32_t dm = (int32_t) id_src2->imm;
-    dm <<= 32 - 12;
-    dm >>= 32 - 12;
+    dm <<= 20;
+    dm >>= 20;
     id_src2->imm = dm;
     rtl_sext(s, &id_src2->imm, &id_src2->imm, 4);
 	rtl_andi(s, ddest, dsrc1, id_src2->imm);
@@ -122,7 +147,7 @@ def_EHelper(sub){
 }
 
 def_EHelper(slt) {
-	if(*(int32_t *)dsrc1 < *(int32_t *)dsrc2){
+	if((int32_t) *dsrc1 < (int32_t) *dsrc2){
 		*ddest = 1;
 	}else{
 		*ddest = 0;
@@ -139,7 +164,7 @@ def_EHelper(add) {
 }
 
 def_EHelper(auipc) {
-	rtl_sext(s, &id_src1->imm, &id_src1->imm, 4);
+//	rtl_sext(s, &id_src1->imm, &id_src1->imm, 4);
 	rtl_addi(s, ddest, &s->pc, id_src1->imm);
 }
 
@@ -183,8 +208,8 @@ def_EHelper(sltu) {
 
 def_EHelper(sltiu) {
 	int32_t dm = (int32_t) id_src2->imm;
-    dm <<= 32 - 12;
-    dm >>= 32 - 12;
+    dm <<= 20;
+    dm >>= 20;
     id_src2->imm = dm;
 	rtl_sext(s, &id_src2->imm, &id_src2->imm, 4);
 	if((uint32_t) *dsrc1 < (uint32_t) id_src2->imm){
@@ -208,18 +233,20 @@ def_EHelper(slti) {
 }
 
 def_EHelper(srli) {
-	id_src2->imm = id_src2->imm & 0x01f;
-    *ddest = *dsrc1 >> id_src2->imm;
+	id_src2->imm = id_src2->imm & 0x0000001f;
+	uint32_t t = (uint32_t) *dsrc1;
+    *ddest = t >> id_src2->imm;
 }
 
 def_EHelper(slli) {
-	id_src2->imm = id_src2->imm & 0x01f;
+	id_src2->imm = id_src2->imm & 0x0000001f;
 	*ddest = *dsrc1 << id_src2->imm;
 }
 
 def_EHelper(srai) {
-	id_src2->imm = id_src2->imm & 0x01f;
-	*ddest = *(int32_t *)dsrc1 >> id_src2->imm;
+	id_src2->imm = id_src2->imm & 0x0000001f;
+	int32_t t = (int32_t) *dsrc1;
+	*ddest = t >> id_src2->imm;
 }
 
 def_EHelper(addi) {

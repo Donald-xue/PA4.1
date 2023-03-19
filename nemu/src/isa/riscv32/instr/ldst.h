@@ -4,7 +4,7 @@ def_EHelper(lw) {
     dm >>= 32 - 12;
     id_src2->imm = dm;
 //	printf("lw src = %x\n", *dsrc1);
-  rtl_lm(s, ddest, dsrc1, id_src2->imm, 4);
+    rtl_lms(s, ddest, dsrc1, id_src2->imm, 4);
 //  printf("lw = %x\n", *ddest);
 }
 
@@ -14,7 +14,7 @@ def_EHelper(lh) {
     dm >>= 32 - 12;
     id_src2->imm = dm;
 //	printf("lh src= %x\n", *dsrc1);
-	rtl_lm(s, ddest, dsrc1, id_src2->imm, 4);
+	rtl_lms(s, ddest, dsrc1, id_src2->imm, 4);
 	*ddest = *ddest & 0x0000ffff;
 	int32_t de = (int32_t) *ddest;
     de <<= 32 - 16;
@@ -40,9 +40,8 @@ def_EHelper(lbu) {
     dm <<= 32 - 12;
     dm >>= 32 - 12;
     id_src2->imm = dm;
-//  printf("lbu src= %x\n", *dsrc1);
+//    printf("lbu src= %x, pc = %x, dest = %x\n", *dsrc1, s->pc, *ddest);
     rtl_lm(s, ddest, dsrc1, id_src2->imm, 1);
-//  printf("lbu = %x\n", *ddest);
 //  *ddest = *ddest & 0x000000ff;
 }
 
@@ -52,7 +51,7 @@ def_EHelper(lb) {
     dm >>= 32 - 12;
     id_src2->imm = dm;
 //	printf("lbu src= %x\n", *dsrc1);
-	rtl_lm(s, ddest, dsrc1, id_src2->imm, 1);
+	rtl_lms(s, ddest, dsrc1, id_src2->imm, 1);
 	*ddest = *ddest & 0x000000ff;
     int32_t de = (int32_t) *ddest;
     de <<= 32 - 8;

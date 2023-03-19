@@ -25,21 +25,37 @@ extern size_t get_ramdisk_size();
 # error Unsupported ISA
 #endif
 
+extern int fs_open(const char *pathname);
+extern size_t fs_read(int fd, void *buf, size_t len);
+extern void fs_setoffset(int fd, size_t offset);
+extern size_t fs_getdiskoff(int fd);
+
 static uintptr_t loader(PCB *pcb, const char *filename) {
 //  TODO();
+  uint32_t fd;
+  printf("loader fs_open %s\n", filename);
+  fd = fs_open(filename);
   Elf_Ehdr ehdr;
-  ramdisk_read(&ehdr, 0, sizeof(Elf_Ehdr));
+//  uint32_t count;
+  fs_read(fd, &ehdr, sizeof(Elf_Ehdr));
+//  ramdisk_read(&ehdr, fs_getdiskoff(fd), sizeof(Elf_Ehdr));
   Elf_Ehdr *elf = &ehdr;
   assert(*(uint32_t *)elf->e_ident == 0x464c457f);
-//  printf("EXPECT_TYPE = %d, ehdr.e_machine = %d\n", EXPECT_TYPE, ehdr.e_machine);
+  //printf("EXPECT_TYPE = %d, ehdr.e_machine = %d\n", EXPECT_TYPE, ehdr.e_machine);
   assert(EXPECT_TYPE == ehdr.e_machine);
   Elf_Phdr phdr[ehdr.e_phnum];
-  ramdisk_read(phdr, ehdr.e_ehsize, sizeof(Elf_Phdr)*ehdr.e_phnum);
+  fs_read(fd, phdr, sizeof(Elf_Phdr)*ehdr.e_phnum);
+//  printf("reach here !!!!!!!!!!!!!!!!!!!!\n");
+//  ramdisk_read(phdr, ehdr.e_ehsize + fs_getdiskoff(fd), sizeof(Elf_Phdr)*ehdr.e_phnum);
    for(int i = 0; i < ehdr.e_phnum; i++){
 	  if( phdr[i].p_type == PT_LOAD ){
 //		  printf("第%d个信息!!\n", i);
-		  ramdisk_read((void *)phdr[i].p_vaddr, phdr[i].p_offset, phdr[i].p_memsz);
+          fs_setoffset(fd, phdr[i].p_offset);		  
+		  fs_read(fd, (void *)phdr[i].p_vaddr, phdr[i].p_memsz);
+//		  printf("第%d个信息!!\n", i);
+//		  ramdisk_read((void *)phdr[i].p_vaddr, phdr[i].p_offset + fs_getdiskoff(fd), phdr[i].p_memsz);
 		  memset((void *)(phdr[i].p_vaddr+phdr[i].p_filesz), 0, phdr[i].p_memsz-phdr[i].p_filesz);
+//		  printf("第%d个0!!\n", i);
  	  }
   }
   return ehdr.e_entry;
@@ -49,5 +65,10 @@ void naive_uload(PCB *pcb, const char *filename) {
   uintptr_t entry = loader(pcb, filename);
   Log("Jump to entry = %p", entry);
   ((void(*)())entry) ();
+}
+
+uintptr_t loader_call (PCB *pcb, const char *filename) {
+  uintptr_t ptr = loader(pcb, filename);
+  return ptr;
 }
 

@@ -2,6 +2,8 @@ LD = $(CXX)
 
 ### Run an application with $(ISA)=native
 
+NAVY_HOME = $(NEMU_HOME)/../navy-apps
+
 env:
 	$(MAKE) -C $(NAVY_HOME)/libs/libos ISA=native
 

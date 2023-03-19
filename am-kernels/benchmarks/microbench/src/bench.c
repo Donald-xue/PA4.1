@@ -9,7 +9,6 @@ Setting *setting;
 static char *hbrk;
 
 static uint64_t uptime() { 
-printf("%d", io_read(AM_TIMER_UPTIME).us/1000);
 return io_read(AM_TIMER_UPTIME).us; }
 
 static char *format_time(uint64_t us) {

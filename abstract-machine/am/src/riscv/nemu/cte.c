@@ -15,26 +15,8 @@ Context* __am_irq_handle(Context *c) {
     switch (c->mcause) {
 		case 0xffffffff: ev.event = EVENT_YIELD; 
 						 break;
-		case 0:
-		case 1:
-        case 2:
-        case 3:
-        case 4:
-        case 5:
-        case 6:
-        case 7:    
-		case 8:
-        case 9:
-        case 10:
-        case 11:
-        case 12:
-        case 13:
-        case 14:
-        case 15:
-        case 16:
-        case 17:
-        case 18:
-        case 19:
+		case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 7:    
+		case 8: case 9: case 10: case 11: case 12: case 13: case 14: case 15: case 16: case 17: case 18: case 19:
 						 ev.event = EVENT_SYSCALL; break;
 		default: ev.event = EVENT_ERROR; break;
     }
@@ -59,7 +41,13 @@ bool cte_init(Context*(*handler)(Event, Context*)) {
 }
 
 Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
-  return NULL;
+  Context *c = (Context *)kstack.end - sizeof(Context) - 4;
+  c->mepc = (uintptr_t)entry; 
+  c->gpr[10] = (uintptr_t) arg;
+  c->gpr[2]  = (uintptr_t) kstack.end - 4;
+//  context->pdir = NULL;
+//  c->mcause = -1;
+  return c;
 }
 
 void yield() {

@@ -1,6 +1,5 @@
-NAME = event-test
+NAME = timer-test
 SRCS = main.c
-LIBS = libndl
 
 NAVY_HOME = $(NEMU_HOME)/../navy-apps
 

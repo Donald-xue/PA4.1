@@ -1,11 +1,13 @@
 #include <nterm.h>
 #include <SDL.h>
 #include <SDL_bdf.h>
+#include <stdlib.h>
 
 static const char *font_fname = "/share/fonts/Courier-7.bdf";
 static BDF_Font *font = NULL;
 static SDL_Surface *screen = NULL;
 Terminal *term = NULL;
+const char* name ="PATH";
 
 void builtin_sh_run();
 void extern_app_run(const char *app_path);
@@ -13,6 +15,7 @@ void extern_app_run(const char *app_path);
 int main(int argc, char *argv[]) {
   SDL_Init(0);
   font = new BDF_Font(font_fname);
+  setenv(name, "/bin:/usr/bin", 0);
 
   // setup display
   int win_w = font->w * W;
@@ -21,7 +24,9 @@ int main(int argc, char *argv[]) {
 
   term = new Terminal(W, H);
 
-  if (argc < 2) { builtin_sh_run(); }
+  if (argc < 2) { 
+  //  printf("running builtin_sh_run!\n");
+    builtin_sh_run(); }
   else { extern_app_run(argv[1]); }
 
   // should not reach here
