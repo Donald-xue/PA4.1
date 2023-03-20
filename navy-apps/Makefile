@@ -6,7 +6,7 @@ html:
 .PHONY: html
 
 NAVY_HOME = $(NEMU_HOME)/../navy-apps
-VME = 1
+#VME = 1
 
 ## 1. Basic Setup and Checks
 

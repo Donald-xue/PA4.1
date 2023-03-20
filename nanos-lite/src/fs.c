@@ -136,3 +136,8 @@ void fs_setoffset(int fd, size_t offset){
 size_t fs_getdiskoff(int fd){
 	return file_table[fd].disk_offset;
 }
+
+int fs_close(int fd){
+  file_table[fd].open_offset = 0;
+  return 0;
+}

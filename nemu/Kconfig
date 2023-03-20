@@ -29,7 +29,7 @@ config ISA64
 menu "Operating Options"
 choice
   prompt "Check watchpoint"
-  default CONFIG_WATCHPOINT
+  default NCONFIG_WATCHPOINT
 config CONFIG_WATCHPOINT
   bool "CONFIG_WATCHPOINT"
 config NCONFIG_WATCHPOINT
@@ -38,7 +38,7 @@ endchoice
 
 choice
   prompt "Memory Trace"
-  default CONFIG_MTRACE
+  default NCONFIG_MTRACE
 config CONFIG_MTRACE
   bool "CONFIG_MTRACE"
 config NCONFIG_MTRACE
@@ -141,7 +141,7 @@ menu "Testing and Debugging"
 
 config TRACE
   bool "Enable tracer"
-  default y
+  default n
 
 config TRACE_START
   depends on TRACE

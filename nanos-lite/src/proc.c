@@ -123,7 +123,7 @@ void init_proc() {
   char *argv1[] = {"/bin/nterm", NULL};
 
   context_kload(&pcb[0], hello_fun, "1");
-  context_uload(&pcb[1], "/bin/nterm", argv1, NULL);
+  context_uload(&pcb[1], "/bin/nslider", argv1, NULL);
 //  printf("pcb[0] is %x\n", &pcb[0]);
   
   switch_boot_pcb();

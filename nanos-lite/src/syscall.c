@@ -10,6 +10,7 @@ extern size_t fs_lseek(int fd, size_t offset, int whence);
 void naive_uload(PCB *pcb, const char *filename);
 Context* schedule(Context *prev);
 int execve(const char *filename, char *const argv[], char *const envp[]);
+int fs_close(int fd);
 
 typedef long      time_t;
 typedef long      suseconds_t;
@@ -108,8 +109,8 @@ void do_syscall(Context *c) {
 			  sys_write(a[1], (char *)a[2], a[3], c);
 			  break;
 
-	  case 7: printf("Get an SYS_close!\n");
-			  c->GPRx = 0;
+	  case 7: //printf("Get an SYS_close!\n");
+              c->GPRx = fs_close(c->GPR2);
 			  break; 
 
 	  case 8:// printf("Get an SYS_lseek!\n");

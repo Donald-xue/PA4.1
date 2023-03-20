@@ -9,7 +9,7 @@ def_EHelper(lui) {
 
 def_EHelper(csrrw){
 //	printf("In csrrw id_src2->imm: %x!\n", id_src2->imm);
-	if(id_src2->imm == 773){
+	if(id_src2->imm == 773 || id_src2->imm == 305){
 		unsigned int t = cpu.mtvec;
 		cpu.mtvec = *dsrc1;
 //		printf("!!!!!!!!cpu.mtvec = %x", cpu.mtvec);
@@ -40,9 +40,15 @@ def_EHelper(csrrw){
 //      printf("!!!!!!!!cpu.mstatus = %x", cpu.mstatus);
        	*ddest = t;
     }
-	if(id_src2->imm == 834){
+	if(id_src2->imm == 834 || id_src2->imm == 342){
         unsigned int t = cpu.mcause;
         cpu.mcause = *dsrc1;
+//      printf("!!!!!!!!cpu.mstatus = %x", cpu.mstatus);
+        *ddest = t;
+    }
+	if(id_src2->imm == 180){
+        unsigned int t = cpu.satp;
+        cpu.satp = *dsrc1;
 //      printf("!!!!!!!!cpu.mstatus = %x", cpu.mstatus);
         *ddest = t;
     }
@@ -51,7 +57,7 @@ def_EHelper(csrrw){
 def_EHelper(csrrs){
 	difftest_skip_ref();
 //	printf("In csrrs!!!\n");
-	if(id_src2->imm == 834){
+	if(id_src2->imm == 834 || id_src2->imm == 342){
         unsigned int t = cpu.mcause;
 //		printf("!!!!!!!!cpu.mcause = %x, dsrc1 = %x\n", cpu.mcause, *dsrc1);
         cpu.mcause = t | *dsrc1;
@@ -64,7 +70,7 @@ def_EHelper(csrrs){
 		}
 #endif
     }
-	if(id_src2->imm == 773){
+	if(id_src2->imm == 773 || id_src2->imm == 305){
         unsigned int t = cpu.mtvec;
         cpu.mtvec = t | *dsrc1;
 //      printf("!!!!!!!!cpu.mstatus = %x", cpu.mstatus);
@@ -91,6 +97,12 @@ def_EHelper(csrrs){
 	if(id_src2->imm == 300){
         unsigned int t = cpu.mstatus;
         cpu.mstatus = t | *dsrc1;
+//      printf("!!!!!!!!cpu.mepc = %x", cpu.mepc);
+        *ddest = t;
+    }
+	if(id_src2->imm == 180){
+        unsigned int t = cpu.satp;
+        cpu.satp = t | *dsrc1;
 //      printf("!!!!!!!!cpu.mepc = %x", cpu.mepc);
         *ddest = t;
     }
