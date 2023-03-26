@@ -6,6 +6,7 @@ bash ./init.sh fceux-am
 bash ./init.sh am-kernels
 bash ./init.sh nanos-lite
 bash ./init.sh navy-apps
+make menuconfig
 
 cd navy-apps/apps 
 cd nterm

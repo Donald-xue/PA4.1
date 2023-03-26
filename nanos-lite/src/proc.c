@@ -10,6 +10,7 @@ uintptr_t loader_call (PCB *pcb, const char *filename);
 void* new_page(size_t nr_page);
 void switch_boot_pcb();
 int fs_open(const char *pathname);
+void protect(AddrSpace *as);
 
 static PCB pcb[MAX_NR_PROC] __attribute__((used)) = {};
 static PCB pcb_boot = {};
@@ -30,6 +31,8 @@ static size_t align_4_bytes(size_t size){
 }
 
 void context_uload(PCB *pcb, const char *filename, char *const argv[], char *const envp[]){
+  AddrSpace *as = &pcb->as;
+  protect(as);
 //  printf("In the context_uload with filename: %s\n", filename);
   int argc = 0, envc = 0;
   if (envp){
@@ -40,6 +43,16 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
   }
   
   void * alloced_page = new_page(NR_PAGE) + NR_PAGE * PAGESIZE; //得到栈顶
+
+  map(as, as->area.end - 8 * PAGESIZE, alloced_page - 8 * PAGESIZE, 1); 
+  map(as, as->area.end - 7 * PAGESIZE, alloced_page - 7 * PAGESIZE, 1);
+  map(as, as->area.end - 6 * PAGESIZE, alloced_page - 6 * PAGESIZE, 1); 
+  map(as, as->area.end - 5 * PAGESIZE, alloced_page - 5 * PAGESIZE, 1);
+  map(as, as->area.end - 4 * PAGESIZE, alloced_page - 4 * PAGESIZE, 1); 
+  map(as, as->area.end - 3 * PAGESIZE, alloced_page - 3 * PAGESIZE, 1);
+  map(as, as->area.end - 2 * PAGESIZE, alloced_page - 2 * PAGESIZE, 1); 
+  map(as, as->area.end - 1 * PAGESIZE, alloced_page - 1 * PAGESIZE, 1); 
+  
   char * ustack = (char *)(alloced_page - 4);
 
   char *argv_ustack[argc];
@@ -77,8 +90,8 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
   ptr -= 1;
   *ptr = argc;
 
-  ptr -= 1;
-  *ptr = 0;
+//  ptr -= 1;
+//  *ptr = 0;
 
   uintptr_t entry = loader_call(pcb, filename);
   Log("Jump to entry = %p", entry);
@@ -87,9 +100,11 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
   karea.end = &pcb->cp + STACK_SIZE;
 //  stack.start = heap.end;//pcb->stack;
 //  stack.end = stack.start + sizeof(pcb->stack);
-  pcb->cp = ucontext(NULL, karea, (void *)entry);
+  pcb->cp = ucontext(as, karea, (void *)entry);
 
-  pcb->cp->GPRx  = (uintptr_t)ptr;
+  pcb->cp->gpr[2]  = (uintptr_t)ptr - (uintptr_t)alloced_page + (uintptr_t)as->area.end;
+
+  pcb->cp->GPRx  = (uintptr_t)ptr - (uintptr_t)alloced_page + (uintptr_t)as->area.end + 4;
   //printf("In the context_uload ptr: %p\n", ptr);
 }
 
@@ -120,10 +135,10 @@ void hello_fun(void *arg) {
 }
 
 void init_proc() {
-  char *argv1[] = {"/bin/nterm", NULL};
+  char *argv1[] = {"/bin/menu", NULL};
 
   context_kload(&pcb[0], hello_fun, "1");
-  context_uload(&pcb[1], "/bin/nslider", argv1, NULL);
+  context_uload(&pcb[1], "/bin/menu", argv1, NULL);
 //  printf("pcb[0] is %x\n", &pcb[0]);
   
   switch_boot_pcb();

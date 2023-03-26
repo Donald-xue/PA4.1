@@ -40,7 +40,7 @@ static void sh_handle_cmd(const char *cmd) {
 
   while (token) {
   //  term->write(token, 10);
-    printf("Builtin-sh token argv[%d] = %s\n", argc+1, token);
+//    printf("Builtin-sh token argv[%d] = %s\n", argc+1, token);
     argv[argc] = token;
     token = strtok(NULL, split);
     argc++;
@@ -62,7 +62,7 @@ void builtin_sh_run() {
       if (ev.type == SDL_KEYUP || ev.type == SDL_KEYDOWN) {
         const char *res = term->keypress(handle_key(&ev));
         if (res) {
-          printf("builtin_sh_run filename %s\n", res);
+//          printf("builtin_sh_run filename %s\n", res);
           sh_handle_cmd(res);
           sh_prompt();
         }

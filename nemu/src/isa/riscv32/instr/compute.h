@@ -9,7 +9,7 @@ def_EHelper(lui) {
 
 def_EHelper(csrrw){
 //	printf("In csrrw id_src2->imm: %x!\n", id_src2->imm);
-	if(id_src2->imm == 773 || id_src2->imm == 305){
+	if(id_src2->imm == 773){
 		unsigned int t = cpu.mtvec;
 		cpu.mtvec = *dsrc1;
 //		printf("!!!!!!!!cpu.mtvec = %x", cpu.mtvec);
@@ -33,31 +33,30 @@ def_EHelper(csrrw){
         cpu.mepc = *dsrc1;
 //      printf("!!!!!!!!cpu.mstatus = %x", cpu.mstatus);
        	*ddest = t;
-    }if(id_src2->imm == 341){
-//		printf("In csrrw mepc!!!\n");
-        unsigned int t = cpu.mepc;
-        cpu.mepc = *dsrc1;
-//      printf("!!!!!!!!cpu.mstatus = %x", cpu.mstatus);
-       	*ddest = t;
     }
-	if(id_src2->imm == 834 || id_src2->imm == 342){
+	if(id_src2->imm == 834){
         unsigned int t = cpu.mcause;
         cpu.mcause = *dsrc1;
 //      printf("!!!!!!!!cpu.mstatus = %x", cpu.mstatus);
         *ddest = t;
     }
-	if(id_src2->imm == 180){
-        unsigned int t = cpu.satp;
-        cpu.satp = *dsrc1;
-//      printf("!!!!!!!!cpu.mstatus = %x", cpu.mstatus);
-        *ddest = t;
+	if(id_src2->imm == 0x180){
+		rtl_mv(s, s0, &(cpu.satp));
+		rtl_mv(s, &(cpu.satp), dsrc1);
+		rtl_mv(s, ddest, s0);
+//        printf("satp dsrc1 = %x, ddest = %x!\n", *dsrc1, *ddest);
+//        unsigned int t = cpu.satp;
+  //      cpu.satp = *dsrc1;
+//          printf("!!!!!!!!cpu.satp = %x", cpu.satp);
+   //     *ddest = t;
     }
 }
 
 def_EHelper(csrrs){
 	difftest_skip_ref();
+//	printf("In csrrs id_src2->imm: %x!\n", id_src2->imm);
 //	printf("In csrrs!!!\n");
-	if(id_src2->imm == 834 || id_src2->imm == 342){
+	if(id_src2->imm == 834){
         unsigned int t = cpu.mcause;
 //		printf("!!!!!!!!cpu.mcause = %x, dsrc1 = %x\n", cpu.mcause, *dsrc1);
         cpu.mcause = t | *dsrc1;
@@ -70,7 +69,7 @@ def_EHelper(csrrs){
 		}
 #endif
     }
-	if(id_src2->imm == 773 || id_src2->imm == 305){
+	if(id_src2->imm == 773){
         unsigned int t = cpu.mtvec;
         cpu.mtvec = t | *dsrc1;
 //      printf("!!!!!!!!cpu.mstatus = %x", cpu.mstatus);
@@ -88,23 +87,20 @@ def_EHelper(csrrs){
 //      printf("!!!!!!!!cpu.mepc = %x", cpu.mepc);
         *ddest = t;
     }
-	if(id_src2->imm == 341){
-        unsigned int t = cpu.mepc;
-        cpu.mepc = t | *dsrc1;
-//      printf("!!!!!!!!cpu.mepc = %x", cpu.mepc);
-        *ddest = t;
-    }
 	if(id_src2->imm == 300){
         unsigned int t = cpu.mstatus;
         cpu.mstatus = t | *dsrc1;
 //      printf("!!!!!!!!cpu.mepc = %x", cpu.mepc);
         *ddest = t;
     }
-	if(id_src2->imm == 180){
-        unsigned int t = cpu.satp;
-        cpu.satp = t | *dsrc1;
-//      printf("!!!!!!!!cpu.mepc = %x", cpu.mepc);
-        *ddest = t;
+	if(id_src2->imm == 0x180){
+		rtl_mv(s, s0, &(cpu.satp));
+		rtl_or(s, &(cpu.satp), dsrc1, s0);
+		rtl_mv(s, ddest, s0);
+//        unsigned int t = cpu.satp;
+//        printf("satp dsrc1 = %x, ddest = %x!\n", *dsrc1, *ddest);
+//        cpu.satp = t | *dsrc1;
+//        *ddest = t;
     }
 }
 

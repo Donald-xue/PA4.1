@@ -81,7 +81,7 @@ void do_syscall(Context *c) {
 
   switch (a[0]) {
 	  case 0: printf("Get an SYS_exit!\n");
-			  //halt(c->GPRx);
+//			  halt(c->GPRx);
 			  c->GPRx = execve("/bin/nterm", (char **)a[2], (char **)a[3]);
 //			  printf("In SYS_exit, c->GPRx = %x\n", c->GPRx);
 			  //c->GPRx = execve("/bin/nterm", (char **)a[2], (char **)a[3]);
