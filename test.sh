@@ -1,12 +1,27 @@
 #!/bin/bash
 
+function env_set() {                                                                                                
+    sed -i -e "/^export $2=.*/d" ~/.bashrc
+    echo "export $2=`readlink -e $1`" >> ~/.bashrc
+}
+
 bash ./init.sh nemu
 bash ./init.sh abstract-machine
 bash ./init.sh fceux-am
 bash ./init.sh am-kernels
 bash ./init.sh nanos-lite
 bash ./init.sh navy-apps
+
+echo "set ENV ..."
+env_set nemu NEMU_HOME
+env_set nexus-am AM_HOME
+env_set navy-apps NAVY_HOME
+source ~/.bashrc
+echo "done!"
+
+cd nemu
 make menuconfig
+cd ..
 
 cd navy-apps/apps 
 cd nterm

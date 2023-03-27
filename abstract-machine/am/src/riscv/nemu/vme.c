@@ -119,7 +119,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot)
 //  if (((uintptr_t)page_table & 0x00000fff) == 0xffc)
 //    init_flag = 0;
   *page_table = (PTE_MASK & ((uintptr_t)pa >> 2)) | (PTE_V); //| (prot ? PTE_U : 0);
-  printf("Page_table addr: %x!\n", page_table);
+//  printf("Page_table addr: %x!\t", va);
 }
 
 Context *ucontext(AddrSpace *as, Area kstack, void *entry)

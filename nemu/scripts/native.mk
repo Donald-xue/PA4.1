@@ -10,10 +10,10 @@ $(BINARY): compile_git
 # Some convenient rules
 
 override ARGS ?= --log=$(BUILD_DIR)/nemu-log.txt
-#ifeq ($(findstring .elf, $(BUILD_DIR)), "/home/xuezeqian/ics2021/nemu/build")
+#ifeq ($(findstring .elf, $(BUILD_DIR)), "$(NEMU_HOME)/build")
 override ARGS ?= --ftrace=$(BUILD_DIR)/riscv32-nemu-interpreter
 #endif
-#ifeq ($(BUILD_DIR), "/home/xuezeqian/ics2021/am-kernels/tests/cpu-tests/build")
+#ifeq ($(BUILD_DIR), "$(NEMU_HOME)/../am-kernels/tests/cpu-tests/build")
 #override ARGS += --ftrace=$(BUILD_DIR)/ftrace.txt
 #endif
 override ARGS += $(ARGS_DIFF)
