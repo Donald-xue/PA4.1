@@ -3,10 +3,10 @@
 version=ics2021
 
 function init() {
-  if [ -d $1 ]; then
-    echo "$1 is already initialized, skipping..."
-    return
-  fi
+#  if [ -d $1 ]; then
+#    echo "$1 is already initialized, skipping..."
+#    return
+#  fi
 
   while [ ! -d $1 ]; do
     git clone -b $version https://github.com/NJU-ProjectN/$1.git

@@ -1,5 +1,11 @@
 # Makefile for AbstractMachine Kernels and Libraries
 
+#dir := $(shell pwd)/$(lastword $(MAKEFILE_LIST))
+#AM_HOME = $(shell dirname $(dir))
+#ifneq ($(wildcard $(AM_HOME)/am/include/am.h),)
+#	@echo $(AM_HOME)
+#endif
+
 ### *Get a more readable version of this Makefile* by `make html` (requires python-markdown)
 html:
 	cat Makefile | sed 's/^\([^#]\)/    \1/g' | markdown_py > Makefile.html
