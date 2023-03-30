@@ -28,6 +28,7 @@ Context* __am_irq_handle(Context *c) {
     assert(c != NULL);
   }
 //  printf("Finished __am_irq_handle!\n");
+  //printf("__am_irq_handle c->pdir内容地址修改后 页表项:%p\t上下文地址%p\t所在栈帧:%p\n", c->pdir, c, &c);
   __am_switch(c);
   return c;
 }
@@ -50,7 +51,7 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
   c->mepc = (uintptr_t)entry; 
   c->gpr[10] = (uintptr_t) arg;
   c->gpr[2]  = (uintptr_t) kstack.end - 4;
-//  context->pdir = NULL;
+  c->pdir = NULL;
 //  c->mcause = -1;
   return c;
 }
