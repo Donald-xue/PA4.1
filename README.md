@@ -20,6 +20,10 @@ The following subprojects/components are included. Some of them are not fully im
 
 
 
+# 首次test.sh执行后如果出现HOME环境变量问题执行 source ~/.bashrc 即可
+
+
+
 # 修复riscv32编译错误
 
 如果你选择的是riscv32, 并在编译`dummy`程序时报告了如下错误:
@@ -75,3 +79,6 @@ The following subprojects/components are included. Some of them are not fully im
 ```
 [*] Devices  --->
 ```
+
+
+

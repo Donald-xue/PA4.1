@@ -18,8 +18,8 @@ env_set abstract-machine AM_HOME
 env_set navy-apps NAVY_HOME
 echo "export alias pbcopy='xclip -selection clipboard'" >> ~/.bashrc
 echo "export alias pbpaste='xclip -selection clipboard -o'" >> ~/.bashrc
-source ~/.bashrc
 echo "done!"
+source ~/.bashrc
 
 cd nemu
 make menuconfig
