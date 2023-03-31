@@ -5,7 +5,7 @@ html:
 	cat Makefile | sed 's/^\([^#]\)/    \1/g' | markdown_py > Makefile.html
 .PHONY: html
 
-NAVY_HOME = $(NEMU_HOME)/../navy-apps
+#NAVY_HOME = $(NEMU_HOME)/../navy-apps
 VME = 1
 
 ## 1. Basic Setup and Checks

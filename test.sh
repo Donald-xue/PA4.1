@@ -5,19 +5,19 @@ function env_set() {
     echo "export $2=`readlink -e $1`" >> ~/.bashrc
 }
 
-bash ./init.sh nemu
-bash ./init.sh abstract-machine
-bash ./init.sh fceux-am
-bash ./init.sh am-kernels
-bash ./init.sh nanos-lite
-bash ./init.sh navy-apps
+#bash ./init.sh nemu
+#bash ./init.sh abstract-machine
+#bash ./init.sh fceux-am
+#bash ./init.sh am-kernels
+#bash ./init.sh nanos-lite
+#bash ./init.sh navy-apps
 
 echo "set ENV ..."
 env_set nemu NEMU_HOME
 env_set abstract-machine AM_HOME
 env_set navy-apps NAVY_HOME
 echo "export alias pbcopy='xclip -selection clipboard'" >> ~/.bashrc
-echo "export alias pbpaste='xclip -selection clipboard -o" >> ~/.bashrc
+echo "export alias pbpaste='xclip -selection clipboard -o'" >> ~/.bashrc
 source ~/.bashrc
 echo "done!"
 
